@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2017 SAP SE or an SAP affiliate company.  All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+<!--
+	ATTENTION: This is just an example file. You have to edit it according to your needs.
+-->
+
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="beans.xsd">
+	<bean class="com.bp.alps.core.data.order.AlpsCommercePlaceOrderParameter&lt;T extends com.bp.alps.core.data.order.AlpsCommerceOrderEntryParameter&gt;">
+		<property name="order" type="de.hybris.platform.core.model.order.AbstractOrderModel"/>
+		<property name="managementStock" type="java.lang.Boolean"/>
+		<property name="saveEntryCallBack" type="java.lang.Object"/>
+		<property name="additionalEntryies" type="java.util.List&lt;T&gt;"/>
+	</bean>
+
+	<bean class="com.bp.alps.core.data.order.CommerceReturnRequestParameter&lt;T extends com.bp.alps.core.data.order.AlpsCommerceOrderEntryParameter&gt;">
+		<property name="order" type="de.hybris.platform.core.model.order.AbstractOrderModel"/>
+		<property name="returnRequest" type="de.hybris.platform.returns.model.ReturnRequestModel"/>
+		<property name="additionalEntryies" type="java.util.List&lt;T&gt;"/>
+	</bean>
+
+	<bean class="com.bp.alps.core.data.order.AlpsCommerceOrderEntryParameter" extends="com.bp.alps.core.data.order.CommerceBaseEntryParameter">
+		<property name="order" type="de.hybris.platform.core.model.order.AbstractOrderModel"/>
+		<property name="productCode" type="java.lang.String"/>
+		<property name="orderEntryClass" type="Class"/>
+	</bean>
+
+	<bean class="com.bp.alps.core.data.order.CommerceBaseEntryParameter" extends="de.hybris.platform.commerceservices.service.data.CommerceCartParameter">
+		<property name="price" type="java.lang.Double"/>
+		<property name="actualPrice" type="java.lang.Double"/>
+	</bean>
+
+	<bean class="com.bp.alps.core.data.order.AlpsStockHandleParameter">
+		<property name="warehouse" type="de.hybris.platform.ordersplitting.model.WarehouseModel"/>
+		<property name="product" type="de.hybris.platform.core.model.product.ProductModel"/>
+		<property name="quantity" type="java.lang.Integer"/>
+	</bean>
+
+	<bean class="com.bp.alps.core.data.order.AlpsCommerceResult">
+		<property name="order" type="de.hybris.platform.core.model.order.AbstractOrderModel"></property>
+		<property name="returnRequest" type="de.hybris.platform.returns.model.ReturnRequestModel"></property>
+		<property name="success" type="java.lang.Boolean"/>
+		<property name="errorMessage" type="java.lang.String"/>
+	</bean>
+
+	<bean class="com.bp.alps.core.data.order.AlpsCommerceEntryResult" extends="de.hybris.platform.commerceservices.order.CommerceCartModification">
+	</bean>
+
+	<bean class="com.bp.alps.core.data.order.SearchOrderParameter">
+		<property name="orderType" type="java.lang.String"/>
+		<property name="customerName" type="java.lang.String"/>
+		<property name="customerMobileNumber" type="java.lang.String"/>
+		<property name="orderStatus" type="java.lang.String"/>
+	</bean>
+
+</beans>

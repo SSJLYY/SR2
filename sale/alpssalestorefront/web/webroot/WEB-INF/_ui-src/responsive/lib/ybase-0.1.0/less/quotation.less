@@ -1,0 +1,674 @@
+/*创建报价单css*/
+.mui-table-view-cell:after {
+  height: 0px!important;
+}
+.status {
+  color: #C71B1E!important;
+}
+.price-content .mui-card-header {
+  height: auto;
+  padding: 15px 0px;
+}
+.price-content .mui-card-header .mui-table-view {
+  width: 100%;
+}
+.price-content.mui-card .mui-card-header:not:before {
+  height: 24px;
+  width: 2px;
+  box-shadow: 0 2px 4px 0 rgba(199, 27, 30, 0.40);
+  position: absolute;
+  right: 0;
+  left: 0px;
+  content: '';
+  -webkit-transform: scaleY(.5);
+  transform: scaleY(.5);
+  background-color: #C71B1E;
+}
+.price-content .mui-card-header .mui-table-view-cell {
+  padding: 0px;
+  padding-left: 20px;
+}
+.price-content .mui-card-header .mui-table-view-cell:first-child {
+  font-size: 16px;
+  color: #C71B1E;
+  font-weight: 600;
+  line-height: 22px;
+}
+.price-content .mui-card-header .mui-table-view-cell:last-child {
+  font-size: 12px;
+  color: #999999;
+  padding-top: 3px;
+}
+.price-content .mui-card-header .mui-table-view-cell:first-child:before {
+  height: 22px;
+  width: 2px;
+  box-shadow: 0 2px 4px 0 rgba(199, 27, 30, 0.40);
+  position: absolute;
+  top: -1px;
+  right: 0;
+  left: 0px;
+  content: '';
+  -webkit-transform: scaleY(.5);
+  transform: scaleY(.5);
+  background-color: #C71B1E;
+}
+.price-card .mui-card-content label {
+  width: 25%;
+  display: inline-block;
+}
+.price-card .mui-card-content input[type=text],input[type=number] {
+  width: 73%;
+  height: auto;
+  padding: 10px 0px;
+  border: 0px;
+  border-bottom: 1px solid rgba(228, 228, 228, .5);
+  border-radius: 0px;
+  color: #999999;
+  margin-bottom: 0px;
+}
+.mui-icon-arrowdown {
+  font-size: 14px;
+  color: #333333;
+}
+.mui-icon-arrowdown:after {
+  content: '\e581';
+}
+.mui-icon-arrowdown:before {
+  content: '';
+}
+.car-card .mui-table-view-cell>a:not(.mui-btn) {
+  /*margin-left: -20px;
+  margin-top: -15px;*/
+  font-size: 15px;
+  color: #333333;
+  font-weight: 600;
+  height: 45px;
+}
+.mui-navigate-right:after,
+.mui-push-left:after,
+.mui-push-right:after {
+  color: #333333;
+}
+.car-card .mui-table-view-cell.mui-active {
+  background: #FFFFFF!important;
+}
+.car-card .mui-table-view-cell.mui-active a {
+  color: #C71B1E;
+}
+.car-card .mui-table-view-cell.mui-active a:before {
+  height: 24px;
+  width: 2px;
+  box-shadow: 0 2px 4px 0 rgba(199, 27, 30, 0.40);
+  position: absolute;
+  right: 0;
+  left: 0px;
+  top: 9px;
+  content: '';
+  -webkit-transform: scaleY(.5);
+  transform: scaleY(.5);
+  background-color: #C71B1E;
+}
+.car-card .mui-table-view-cell.mui-collapse .mui-table-view.mui-table-view-chevron {
+  margin-top: 10px;
+  margin-left: 15px;
+}
+.mui-table-view-cell.mui-collapse .mui-table-view-chevron .mui-table-view-cell {
+  background-position: 0px 100%;
+  padding: 15px 0;
+  font-size: 14px;
+  margin-left: -10px;
+  padding-right: 15px;
+}
+.mui-table-view-cell.mui-collapse .mui-table-view-chevron .mui-table-view-cell .require {
+  margin-top: 20px;
+  height: 5px;
+}
+.mui-table-view-cell.mui-collapse .mui-table-view-chevron .mui-table-view-cell label {
+  color: #333333;
+}
+.carDetails .mui-table-view-cell > span {
+  float: left;
+  display: inline-block;
+  margin-right: 5px;
+  position: relative;
+  top: 2px;
+  color: #C71B1E;
+}
+.carDetails .mui-table-view .mui-table-view-chevron li:not(:last-child){
+  border-bottom: 1px solid #E4E4E4;
+}
+.mui-table-view-cell.mui-collapse .mui-table-view.mui-table-view-chevron {
+  margin-right: 0;
+}
+.carDetails .mui-table-view-cell p{
+  display: inline;
+}
+.carDetails .mui-table-view-chevron .brand p span:after,.carDetails .mui-table-view-chevron .predictTime p input:after{
+  position: absolute;
+  display: inline-block;
+  font-family: Muiicons;
+  content: '\e581';
+  color: #8f8f94;
+  right: -2px;
+}
+.carDetails .mui-table-view-cell.mui-collapse .mui-table-view-chevron .predictTime{
+  padding-right: 0;
+}
+.carDetails .mui-table-view-cell.mui-collapse .mui-table-view-chevron .guideMoney input{
+  width: auto;
+  float: right;
+  margin: 0;
+  padding: 0;
+  height: 20px;
+  text-align: right;
+  border: none;
+}
+.carDetails .mui-table-view-cell.mui-collapse .mui-table-view-chevron .comments{
+  padding-right: 0;
+  /*padding-bottom: 25px;
+  margin-top: 20px;*/
+}
+.carDetails .mui-table-view-cell.mui-collapse .mui-table-view-chevron .comments textarea{
+  margin-top: 12px;
+}
+.original  .mui-search{
+  display: inline-block;
+  width: 100%;
+}
+.original .mui-search input{
+  height: 32px;
+}
+.original .mui-table-view-cell span{
+  float: left;
+  margin-right: 15px;
+  font-size: 14px;
+}
+.original .mui-icon-search:before{
+  position: relative;
+  top: 6px;
+  left: 5px;
+}
+.original .mui-input-row .mui-input-clear~.mui-icon-clear{
+  top: 6px !important;
+}
+.original .mui-table-view-cell.mui-collapse .mui-collapse-content{
+  padding-right: 0;
+}
+.original .mui-table-view-cell.mui-collapse .mui-table-view-chevron .mui-table-view-cell{
+  margin-left: -15px;
+  padding-right: 0;
+}
+
+/*整车订单-原厂选装*/
+.original  .mui-search{
+  display: inline-block;
+}
+.original  .mui-search:before{
+  top: 24px;
+}
+.original .mui-search input{
+  height: 32px;
+  border-radius: 20px;
+  margin-bottom: 0;
+}
+.original .mui-table-view-cell span{
+  float: left;
+  margin-right: 15px;
+  font-size: 14px;
+}
+.original .mui-table-view-cell > p{
+  float: right;
+  color: #666666;
+  line-height: 32px;
+}
+.original .mui-icon-search:before{
+  position: relative;
+  top: 6px;
+  left: 5px;
+}
+.original .mui-input-row .mui-input-clear~.mui-icon-clear{
+  top: 6px !important;
+}
+.original .mui-table-view-cell.mui-collapse .mui-collapse-content{
+  padding-right: 0;
+}
+.original .mui-table-view-cell.mui-collapse .mui-table-view-chevron .mui-table-view-cell{
+  margin-left: 0px;
+  padding-right: 0;
+}
+.original .mui-table-view-cell.mui-collapse .mui-table-view.mui-table-view-chevron{
+  margin: 14px 0px;
+}
+.original .mui-table-view-cell.mui-collapse .mui-table-view .mui-table-view-cell:after{
+  background-color: transparent;
+}
+/*选装商品*/
+.original:last-child{
+  margin-bottom: 60px;
+}
+.original  .mui-collapse .mui-table-view .products:after{
+  left: 15px;
+  border: 1px dotted #E4E4E4;
+}
+.original  .mui-collapse .mui-table-view .products:last-child:after{
+  border: none;
+}
+.original .products > p:nth-of-type(1){
+  float: none;
+  font-size: 10px;
+  color: #333333;
+  margin-bottom: 11px;
+  line-height: 14px;
+  margin-left: 24px;
+}
+.original .products > p:nth-of-type(2){
+  margin-top: 12px;
+  margin-left: 97px;
+  font-size: 10px;
+  color: #999999;
+  line-height: 14px;
+  float: none;
+}
+.original .products .pro > div{
+  float: left;
+}
+.original .products .pro .proLeft{
+  height: 64px;
+  margin-right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.original .products .pro .proMiddle{
+  width: 64px;
+  height: 64px;
+  background: #D8D8D8;
+  margin-right: 10px;
+}
+.original .products .pro .proMiddle img{
+  width: 64px;
+  height: 64px;
+}
+.original .products .pro .proRight{
+  width: calc(100% - 100px);
+}
+.original .products .pro .proRight > p:nth-of-type(1){
+  font-size: 13px;
+  color: #212121;
+  line-height: 13px;
+  margin-bottom: 8px;
+}
+.original .products .pro .proRight > p:nth-of-type(2){
+  font-size: 11px;
+  color: #CE575A;
+  line-height: 16px;
+  margin-bottom: 6px;
+}
+.original .products .pro .proRight .prices > p{
+  display: inline-block;
+  width: 80px;
+  height: 22px;
+  border: 1px solid #CE575A;
+  border-radius: 2px;
+  font-size: 12px;
+  color: #CE575A;
+  text-align: center;
+  -webkit-user-select: text;
+}
+.original .products .pro .proRight>div:nth-of-type(2) p {
+  display: inline;
+  font-size: 10px;
+  -webkit-user-select: text;
+}
+.original .products .pro .proRight .prices .mui-numbox{
+  border-color: #CE575A;
+  width: 80px;
+  height: 22px;
+  padding: 0;
+  float: right;
+}
+.original .products .pro .proRight .prices .mui-numbox [class*=btn-numbox], .mui-numbox [class*=numbox-btn]{
+  width: 25px;
+}
+.original .products .pro .proRight .prices  .mui-numbox [class*=btn-numbox],
+.original .products .pro .proRight .prices  .mui-numbox [class*=numbox-btn]{
+  font-size: 14px;
+}
+
+
+.secondHand .radio_inline{
+  display: inline-block;
+  width: 65%;
+  margin-right: 0;
+  text-align: right !important;
+}
+.secondHand .radio_inline label{
+  width: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  position: relative;
+  top: -17px;
+}
+.secondHand .radio_inline input[type=radio]{
+  width: 15%;
+  right: auto;
+  top: -4px;
+  z-index: 1000;
+}
+.secondHand .mui-radio > label.require{
+  margin:0;
+  padding: 0;
+  width: 22%;
+  float: left;
+}
+#mui-content > .mui-card:last-child{
+  margin-bottom: 60px;
+}
+.mui-bar-tab > #creatQuotation,.mui-bar-tab > #invalidQuotation{
+  background: #C71B1E;
+  color: #FFFFFF;
+}
+/*报价单详情页css*/
+.particulars .mui-table-view-cell.mui-collapse .mui-table-view-chevron li{
+  padding: 7px 0;
+  margin-left: -20px;
+  clear: both;
+}
+.particulars .mui-table-view-cell.mui-collapse .mui-table-view-chevron li.titles{
+  padding-bottom: 15px;
+  border-bottom: 1px dashed #ccc;
+  margin-bottom: 8px;
+  color: #333333;
+}
+.particulars .mui-table-view-cell.mui-collapse .mui-table-view-chevron li.titles label{
+  color: #333333;
+}
+.particulars .mui-table-view-cell.mui-collapse .mui-table-view-chevron li.detailWidth > p{
+  width: 78%;
+}
+.particulars .mui-table-view-cell.mui-collapse .mui-table-view-chevron li.detailWidth > p span{
+  text-align: justify;
+}
+.particulars .mui-table-view-cell.mui-collapse .mui-table-view-chevron li:last-child{
+  padding-bottom: 20px;
+}
+.particulars .mui-table-view-cell.mui-collapse .mui-table-view-chevron li label{
+  color: #666666;
+}
+.particulars .mui-table-view-cell.mui-collapse .mui-table-view-chevron li p{
+  color: #333333;
+}
+.particulars .mui-table-view-cell.mui-collapse .mui-table-view-chevron li p.detailRed,.detailRed{
+  color: #C71B1E;
+}
+.particulars .mui-table-view-cell.mui-collapse .mui-table-view-chevron li.red label,
+.particulars .mui-table-view-cell.mui-collapse .mui-table-view-chevron li.red p{
+  color: #C71B1E;
+}
+.particulars .mui-table-view-cell.mui-collapse .mui-table-view-chevron li>p{
+  float: right;
+}
+.particulars .mui-table-view-cell.mui-collapse .mui-table-view-chevron>p.line{
+  border-top: 1px solid  #E4E4E4;
+  text-align: right;
+  padding: 20px 15px 20px 0;
+  font-size: 14px;
+  color: #C71B1E;
+  margin: 23px -15px 0 -30px;
+}
+.particulars .mui-table-view-cell.mui-collapse .mui-table-view-chevron>p.total span:last-child{
+  color: #666;
+  margin-right: 20px;
+}
+.particulars .mui-table-view .mui-table-view-chevron li:not(:last-child){
+  border: none;
+}
+.orderDetail .particulars .mui-table-view-cell.mui-collapse .mui-table-view.mui-table-view-chevron{
+  border-top: 1px solid #e4e4e4;
+  border-radius: 0;
+  margin-left: 0;
+  padding-left: 20px;
+  padding-top: 10px;
+}
+.orderDetail .particulars .mui-table-view-cell.mui-collapse .mui-table-view-chevron>p.lines{
+  border-top: 1px dashed #E4E4E4;
+  margin: 6px 0px 6px -20px;
+}
+.orderDetail .particulars .mui-table-view-cell.mui-collapse .mui-table-view-chevron li p.detailBlue,.detailBlue{
+  color: #618DF6;
+}
+/*底部tabBar*/
+.tabBar a.mui-active span:nth-of-type(2){
+  color: #C71B1E;
+}
+.tabBar a:nth-of-type(1) span.mui-icon{
+  background: url(../../images/editor1.png) no-repeat;
+  background-size: 100% 100%;
+}
+.tabBar a:nth-of-type(1).mui-active span.mui-icon{
+  background: url(../../images/editor2.png) no-repeat;
+  background-size: 100% 100%;
+}
+.tabBar a:nth-of-type(2) span.mui-icon{
+  background: url(../../images/msg1.png) no-repeat;
+  background-size: 100% 100%;
+}
+.tabBar a:nth-of-type(2).mui-active span.mui-icon{
+  background: url(../../images/msg2.png) no-repeat;
+  background-size: 100% 100%;
+}
+.tabBar a:nth-of-type(3) span.mui-icon{
+  background: url(../../images/set1.png) no-repeat;
+  background-size: 100% 100%;
+}
+.tabBar a:nth-of-type(3).mui-active span.mui-icon{
+  background: url(../../images/set2.png) no-repeat;
+  background-size: 100% 100%;
+}
+.tabBar a:nth-of-type(4) span.mui-icon{
+  background: url(../../images/more1.png) no-repeat;
+  background-size: 100% 100%;
+}
+.tabBar a:nth-of-type(4).mui-active span.mui-icon{
+  background: url(../../images/more2.png) no-repeat;
+  background-size: 100% 100%;
+}
+#messages{
+  width: 209px;
+}
+#messages,#messages .mui-table-view,#messages .mui-popover-arrow.mui-bottom:after{
+  background: #FFFFFF;
+}
+#messages.mui-bar-popover .mui-table-view{
+  width: 100%;
+  text-align: center;
+  padding-top: 11px;
+}
+#messages.mui-bar-popover .mui-table-view li{
+  padding-top: 0;
+}
+#messages.mui-bar-popover .mui-table-view li a{
+  width: 90%;
+  margin: 0 auto;
+  border-bottom: 1px solid #E4E4E4;
+}
+#messages.mui-bar-popover .mui-table-view li:last-child a{
+  border-bottom: none;
+}
+#messages.mui-bar-popover .mui-table-view li a label{
+  font-size: 14px;
+}
+#messages.mui-bar-popover .mui-table-view li a input{
+  float: right;
+  position: relative;
+  top: 5px;
+}
+/*试乘试驾*/
+.mui-bar-nav~.confirm{
+  padding: 16px 27px 0 27px;
+}
+.confirm{
+  //margin-top: 52px;
+  background: #ffffff;
+  height: 100%;
+}
+.confirm > p{
+  margin-bottom: 0;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #E4E4E4;
+}
+.confirm > p span{
+  font-size: 15px;
+  color: #212121;
+}
+.confirm > p span:nth-of-type(1){
+  font-weight: bold;
+  margin-right: 20px;
+}
+.confirm > p a{
+  font-size: 13px;
+  color: #C71B1E;
+  float: right;
+}
+.confirm .undertake{
+  padding-top: 16px;
+  padding-bottom: 40px;
+}
+.confirm .undertake p{
+  text-align: center;
+  font-size: 18px;
+  color: #212121;
+  line-height: 25px;
+  margin-bottom: 12px;
+}
+.confirm .undertake div.matter{
+  border: 1px solid #E4E4E4;
+  border-radius: 2px;
+  padding: 16px;
+  margin: 0 -11px 0 -11px;
+  color: #212121;
+  font-size: 13px;
+  text-align: justify;
+  line-height: 26px;
+}
+.confirm .undertake div.check{
+  margin-left: -11px;
+  margin-top: 14px;
+}
+.confirm .undertake div.check span{
+  font-size: 12px;
+  color: #666666;
+  line-height: 15px;
+  margin-left: 3.8px;
+}
+.confirm .undertake div.check input{
+  position: relative;
+  top: 2px;
+}
+.confirm .certificate{
+  margin: 0 -11px 0 -11px;
+  padding-bottom: 40px;
+}
+.confirm .certificate p{
+  font-size: 15px;
+  color: #212121;
+  margin-bottom: 20px;
+  line-height: 21px;
+}
+.confirm .certificate > div{
+  margin: 0 auto;
+}
+.confirm .certificate > div div{
+  text-align: center;
+  width:100%;
+  height: 100%;
+  min-width: 343px;
+  min-height: 202px;
+}
+.confirm .certificate > div div img{
+  width: 62px;
+  height: 62px;
+  margin: 54px 0 8px;
+}
+.confirm .certificate > div div p{
+  font-size: 18px;
+  color: #212121;
+  line-height: 25px;
+  margin-bottom: 53px;
+}
+.confirm .certificate .front{
+  margin-bottom: 20px;
+}
+.confirm .certificate .front div{
+  background: url(../../images/IDcard.png) no-repeat;
+  background-size: 100% 100%;
+}
+.confirm .certificate .end div{
+  background: url(../../images/ID2Card.png) no-repeat;
+  background-size: 100% 100%;
+}
+.confirm .signature{
+  margin: 0 -11px 0 -11px;
+  padding-bottom: 67px;
+}
+.confirm .signature p{
+  font-size: 15px;
+  color: #212121;
+  margin-bottom: 12px;
+  line-height: 21px;
+}
+.confirm .signature div{
+  border: 1px solid #E4E4E4;
+  border-radius: 2px;
+  height: 227px;
+  position: relative;
+}
+.confirm .signature div button{
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  border-radius: 100px;
+  color: #C71B1E;
+  font-size: 15px;
+  border-color:  #C71B1E;
+  padding: 8px 28px;
+}
+#share {
+  width: 130px;
+}
+#share, #share .mui-table-view, #messages .mui-popover-arrow.mui-bottom:after {
+  background: #FFFFFF;
+}
+
+#share.mui-bar-popover .mui-table-view{
+  width: 100%;
+  text-align: center;
+  padding-top: 5px;
+}
+#share.mui-bar-popover .mui-table-view li{
+  padding: 0;
+}
+#share.mui-bar-popover .mui-table-view li a{
+  /*width: 90%;*/
+  margin: 0 auto;
+  border-bottom: 1px solid #E4E4E4;
+}
+#share.mui-bar-popover .mui-table-view li:last-child a{
+  border-bottom: none;
+  padding-bottom: 7px;
+}
+#share.mui-bar-popover .mui-table-view li a label{
+  font-size: 13px;
+}
+#share .mui-icon{
+  color:#C71B1E;
+
+}
+#share .mui-icon-redo:before{
+  margin-right:5px;
+  font-weight: 800;
+  font-size: 18px;
+}
+.mui-icon .mui-badge{
+  background:#C71B1E!important;
+}

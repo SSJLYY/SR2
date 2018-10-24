@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2017 SAP SE or an SAP affiliate company.  All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd">
+	
+    <bean id="vehiclecommercefacadeSystemSetup" class="com.bp.alps.vehiclecommercefacade.setup.VehiclecommercefacadeSystemSetup">
+        <!-- constructor arg injection example -->
+        <constructor-arg ref="vehiclecommercefacadeService"/>
+    </bean>
+
+    <bean id="vehiclecommercefacadeService" class="com.bp.alps.vehiclecommercefacade.service.impl.DefaultVehiclecommercefacadeService">
+        <!-- setter injection example -->
+        <property name="modelService" ref="modelService"/>
+        <property name="mediaService" ref="mediaService"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="vehicleFacade" class="com.bp.alps.vehiclecommercefacade.vehicle.impl.VehicleFacadeImpl"/>
+
+    <bean id="vehicleConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.vehiclecommerceservices.model.VehicleInfoModel" />
+        <property name="populators">
+            <list>
+                <ref bean="vehiclePoplator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="vehiclePoplator" class="com.bp.alps.vehiclecommercefacade.populators.vehicle.VehiclePoplator"/>
+
+    <bean id="vehicleBaseOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.facades.data.vehicle.VehicleInfoBaseData" />
+        <property name="populators">
+            <list>
+                <ref bean="vehicleBaseOutputPoplator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="vehicleBaseOutputPoplator" class="com.bp.alps.vehiclecommercefacade.populators.vehicle.output.VehicleBaseOutputPoplator"/>
+
+    <bean id="vehicle2UserOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.facades.data.vehicle.Vehicle2User" />
+        <property name="populators">
+            <list>
+                <ref bean="vehicle2UserOutputPoplator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="vehicle2UserOutputPoplator" class="com.bp.alps.vehiclecommercefacade.populators.vehicle.output.Vehicle2UserOutputPoplator"/>
+
+    <bean id="vehicle2UserConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.vehiclecommerceservices.model.Vehicle2UserModel" />
+        <property name="populators">
+            <list>
+                <ref bean="vehicle2UserPoplator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="vehicle2UserPoplator" class="com.bp.alps.vehiclecommercefacade.populators.vehicle.Vehicle2UserPoplator"/>
+
+    <bean id="vehicleIncreaseOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.facades.data.vehicle.IncreaseData" />
+        <property name="populators">
+            <list>
+                <ref bean="vehicleIncreaseOutputPoplator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="vehicleIncreaseOutputPoplator" class="com.bp.alps.vehiclecommercefacade.populators.vehicle.output.VehicleIncreaseOutputPoplator"/>
+
+    <bean id="vehicleInsuranceOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.facades.data.vehicle.InsuranceData" />
+        <property name="populators">
+            <list>
+                <ref bean="vehicleInsuranceOutputPoplator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="vehicleInsuranceOutputPoplator" class="com.bp.alps.vehiclecommercefacade.populators.vehicle.output.VehicleInsuranceOutputPoplator"/>
+
+    <bean id="vehicleInsuranceConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.vehiclecommerceservices.model.VehicleInsuranceInfoModel" />
+        <property name="populators">
+            <list>
+                <ref bean="vehicleInsurancePoplator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="vehicleInsurancePoplator" class="com.bp.alps.vehiclecommercefacade.populators.vehicle.VehicleInsurancePoplator"/>
+
+    <bean id="vehicleMaintainOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.facades.data.vehicle.MaintainData" />
+        <property name="populators">
+            <list>
+                <ref bean="vehicleMaintainOutputPoplator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="vehicleMaintainOutputPoplator" class="com.bp.alps.vehiclecommercefacade.populators.vehicle.output.VehicleMaintainOutputPoplator"/>
+
+    <bean id="customerBaseDataConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="de.hybris.platform.core.model.user.CustomerModel" />
+        <property name="populators">
+            <list>
+                <ref bean="customerBaseDataPopulaor" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="customerBaseDataPopulaor" class="com.bp.alps.vehiclecommercefacade.populators.customer.CustomerBaseDataPopulaor"/>
+
+    <bean id="vehicleOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.facades.data.vehicle.VehicleInfoData" />
+        <property name="populators">
+            <list>
+                <ref bean="vehicleBaseOutputPoplator" />
+                <ref bean="vehicleOutputPoplator" />
+                <ref bean="vehicleAppendInfoOutputPoplator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="vehicleOutputPoplator" class="com.bp.alps.vehiclecommercefacade.populators.vehicle.output.VehicleOutputPoplator"/>
+
+    <bean id="vehicleAppendInfoOutputPoplator" class="com.bp.alps.vehiclecommercefacade.populators.vehicle.output.VehicleAppendInfoOutputPoplator"/>
+
+    <bean id="customerBaseDataOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.facades.data.customer.CustomerBaseData" />
+        <property name="populators">
+            <list>
+                <ref bean="customerBaseDataOutputPopulaor" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="customerBaseDataOutputPopulaor" class="com.bp.alps.vehiclecommercefacade.populators.customer.output.CustomerBaseDataOutputPopulaor"/>
+
+    <bean id="customerOutputDataConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.facades.data.order.CustomerInfoData" />
+        <property name="populators">
+            <list>
+                <ref bean="customerBaseDataOutputPopulaor" />
+                <ref bean="customerOutputDataPopulaor" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="customerOutputDataPopulaor" class="com.bp.alps.vehiclecommercefacade.populators.customer.output.CustomerOutputDataPopulaor"/>
+
+    <bean id="alpsCustomerFacade" class="com.bp.alps.vehiclecommercefacade.customer.impl.AlpsCustomerFacadeImpl"/>
+
+    <bean id="enumConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="de.hybris.platform.cmsfacades.data.OptionData" />
+        <property name="populators">
+            <list>
+                <ref bean="enumPupulator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="productSearchResponseConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.facades.data.product.ProductSearchResponse" />
+        <property name="populators">
+            <list>
+                <ref bean="productSearchResponsePopuplator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="productSearchResponsePopuplator" class="com.bp.alps.vehiclecommercefacade.populators.product.ProductSearchResponsePopuplator"/>
+
+    <bean id="productDataConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.facades.data.product.ProductData" />
+        <property name="populators">
+            <list>
+                <ref bean="productDataPopulator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="productDataPopulator" class="com.bp.alps.vehiclecommercefacade.populators.product.ProductDataPopulator"/>
+
+    <bean id="categoryListDataConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.facades.data.category.CategoryListData" />
+        <property name="populators">
+            <list>
+                <ref bean="categoryListDataPoplator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="categoryListDataPoplator" class="com.bp.alps.vehiclecommercefacade.populators.product.CategoryListDataPopuplator"/>
+
+    <bean id="customerAddressDataConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="de.hybris.platform.core.model.user.AddressModel" />
+        <property name="populators">
+            <list>
+                <ref bean="customerAddressDataPoplator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="customerAddressDataPoplator" class="com.bp.alps.vehiclecommercefacade.populators.customer.address.CustomerAddressDataPopulaor"/>
+
+    <alias name="alpsCommerceSearchResultProductConverter" alias="commerceSearchResultProductConverter"/>
+    <bean id="alpsCommerceSearchResultProductConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="de.hybris.platform.commercefacades.product.data.ProductData"/>
+        <property name="populators">
+            <list>
+                <ref bean="commerceSearchResultProductPopulator"/>
+                <ref bean="searchResultPickupAvailabilityPopulator"/>
+                <ref bean="searchResultProductCategoryPopulator"/>
+                <!--shaun-->
+                <ref bean="alpsSearchResultVariantProductPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="searchResultProductCategoryPopulator" class="com.bp.alps.vehiclecommercefacade.populators.product.SearchResultProductCategoryPopulator"/>
+
+    <!--shaun-->
+    <bean id="alpsSearchResultVariantProductPopulator" class="com.bp.alps.vehiclecommercefacade.populators.product.AlpsSearchResultVariantProductPopulator" parent="defaultCommerceSearchResultProductPopulator">
+    </bean>
+
+
+    <bean id="salesProductSearchFacade" class="com.bp.alps.vehiclecommercefacade.product.search.Impl.SalesProductSearchFacadeImpl" parent="defaultSolrProductSearchFacade"/>
+
+    <bean id="vehicle2UserFacade" class="com.bp.alps.vehiclecommercefacade.vehicle.impl.Vehicle2UserFacadeImpl"/>
+
+    <bean id="vehicleInsuranceFacade" class="com.bp.alps.vehiclecommercefacade.vehicle.impl.VehicleInsuranceFacadeImpl"/>
+
+    <bean id="districtConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.facades.data.region.DistrictData" />
+        <property name="populators">
+            <list>
+                <ref bean="districtPoplator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="districtPoplator" class="com.bp.alps.vehiclecommercefacade.populators.region.DistrictPoplator"/>
+
+    <bean id="cityConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.facades.data.region.CityData" />
+        <property name="populators">
+            <list>
+                <ref bean="cityPoplator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="cityPoplator" class="com.bp.alps.vehiclecommercefacade.populators.region.CityPoplator"/>
+
+    <bean id="provinceConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.facades.data.region.ProvinceData" />
+        <property name="populators">
+            <list>
+                <ref bean="provincePoplator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="provincePoplator" class="com.bp.alps.vehiclecommercefacade.populators.region.ProvincePoplator"/>
+
+    <bean id="regionFacade" class="com.bp.alps.vehiclecommercefacade.region.impl.RegionFacadeImpl"/>
+
+    <bean id="orderEntryDataPopulator" class="com.bp.alps.vehiclecommercefacade.populators.abstractOrder.EntryDataPopulator"/>
+
+    <bean id="entryDataOutputPopulator" class="com.bp.alps.vehiclecommercefacade.populators.abstractOrder.output.EntryDataOutputPopulator"/>
+
+    <alias name="alpsConsultantFacade" alias="customerFacade"/>
+    <bean id="alpsConsultantFacade" class="com.bp.alps.vehiclecommercefacade.consultant.impl.AlpsConsultantFacadeImpl" parent="defaultCustomerFacade"/>
+</beans>

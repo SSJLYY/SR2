@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2017 SAP SE or an SAP affiliate company.  All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security" xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
+	xmlns:sec="http://www.springframework.org/schema/security"
+	xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security 
+		http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util.xsd
+		http://www.springframework.org/schema/security/oauth2 
+     	http://www.springframework.org/schema/security/spring-security-oauth2.xsd">
+
+		<!-- Security OAuth2 -->
+		<import resource="classpath*:oauth2-resource-spring.xml"/>
+		<!-- Swagger resources -->
+		<security:http pattern="/v2/api-docs" security="none"/>
+		<security:http pattern="/**/*swagger*/**" security="none"/>
+
+		<oauth:authorization-server client-details-service-ref="oauthClientDetails"
+									token-services-ref="oauthTokenServices" token-endpoint-url="/oauth/orig_token"
+									authorization-endpoint-url="/oauth/authorize"
+									user-approval-page="forward:/oauth/confirm_access">
+			<oauth:authorization-code authorization-code-services-ref="oauthAuthorizationCode" />
+			<oauth:implicit />
+			<oauth:refresh-token />
+			<oauth:client-credentials />
+			<oauth:password authentication-manager-ref="userAuthenticationManager"/>
+		</oauth:authorization-server>
+
+		<alias name="defaultOauthAuthenticationEntryPoint" alias="oauthAuthenticationEntryPoint" />
+		<bean id="defaultOauthAuthenticationEntryPoint"
+			  class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint"
+			  p:realmName="hybris" p:typeName="Basic" p:exceptionRenderer-ref="oAuth2ExceptionRenderer" />
+
+		<alias name="defaultClientAuthenticationManager" alias="clientAuthenticationManager" />
+		<sec:authentication-manager id="defaultClientAuthenticationManager">
+			<sec:authentication-provider user-service-ref="oauthClientDetailsUserService">
+				<sec:password-encoder ref="clientSecretEncoder" />
+			</sec:authentication-provider>
+		</sec:authentication-manager>
+
+		<authentication-manager id="userAuthenticationManager" xmlns="http://www.springframework.org/schema/security">
+			<authentication-provider ref="wsAuthenticationProvider" />
+		</authentication-manager>
+
+		<bean id="clientCredentialsTokenEndpointFilter"
+			  class="org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter"
+			  p:authenticationManager-ref="clientAuthenticationManager"
+			  p:authenticationEntryPoint-ref="oauthAuthenticationEntryPoint" p:filterProcessesUrl="/oauth/token" />
+		<bean id="fixation"
+			  class="de.hybris.platform.servicelayer.security.spring.HybrisSessionFixationProtectionStrategy" />
+
+		<sec:http pattern="/oauth/token" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint"
+				  authentication-manager-ref="clientAuthenticationManager" use-expressions="false">
+			<sec:csrf disabled="true"/>
+			<sec:intercept-url pattern="/oauth/token" access="IS_AUTHENTICATED_FULLY" requires-channel="${webservicescommons.required.channel:https}"/>
+			<sec:anonymous enabled="false" />
+			<sec:port-mappings>
+				<sec:port-mapping http="#{configurationService.configuration.getInt('tomcat.http.port',9091)}"
+								  https="#{configurationService.configuration.getInt('tomcat.ssl.port',9092)}" />
+				<sec:port-mapping http="#{configurationService.configuration.getInt('embeddedserver.http.port',9091)}"
+								  https="#{configurationService.configuration.getInt('embeddedserver.ssl.port',9092)}" />
+			</sec:port-mappings>
+			<sec:http-basic entry-point-ref="oauthAuthenticationEntryPoint" />
+			<sec:custom-filter ref="clientCredentialsTokenEndpointFilter" after="BASIC_AUTH_FILTER" />
+			<sec:access-denied-handler ref="oauthAccessDeniedHandler" />
+			<sec:headers>
+				<sec:frame-options disabled="true"/>
+			</sec:headers>
+		</sec:http>
+
+
+		<sec:http entry-point-ref="oauthAuthenticationEntryPoint" use-expressions="true" xmlns="http://www.springframework.org/schema/security">
+			<sec:csrf disabled="true"/>
+			<sec:intercept-url pattern="/oauth/**" access="isFullyAuthenticated()"
+							   requires-channel="${webservicescommons.required.channel:https}" />
+			<sec:intercept-url pattern="/sample/users/{id}" access="isAnonymous()" requires-channel="#{configurationService.configuration.getString('webservicescommons.required.channel', 'https')}" />
+			<sec:intercept-url pattern="/**" access="isAuthenticated()" requires-channel="#{configurationService.configuration.getString('webservicescommons.required.channel', 'https')}" />
+			<sec:port-mappings>
+				<sec:port-mapping http="#{configurationService.configuration.getInt('tomcat.http.port',9091)}"
+								  https="#{configurationService.configuration.getInt('tomcat.ssl.port',9092)}" />
+				<sec:port-mapping http="#{configurationService.configuration.getInt('embeddedserver.http.port',9091)}"
+								  https="#{configurationService.configuration.getInt('embeddedserver.ssl.port',9092)}" />
+			</sec:port-mappings>
+
+			<sec:custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
+			<sec:custom-filter ref="envInitFilter" after="LAST"/>
+			<sec:anonymous />
+			<sec:session-management session-authentication-strategy-ref="fixation" />
+			<sec:headers>
+				<sec:frame-options disabled="true"/>
+			</sec:headers>
+		</sec:http>
+
+		<bean id="envInitFilter" class="com.dp.webservices.filter.EnvInitFilter" />
+
+		<bean id="hybrisUserFilter" class="de.hybris.platform.webservicescommons.oauth2.HybrisOauth2UserFilter" />
+
+		<bean id="addHeaderFilter" class="com.dp.webservices.filter.AddHeaderFilter"/>
+
+		<bean id="oAuth2ExceptionRenderer" class="de.hybris.platform.webservicescommons.oauth2.OAuth2ExceptionRenderer">
+			<property name="messageConverters" ref="jaxbMessageConverters" />
+			<property name="exceptionConverter" ref="exceptionConverter" />
+		</bean>
+
+		<bean id="oauthAccessDeniedHandler" class="org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler">
+			<property name="exceptionRenderer" ref="oAuth2ExceptionRenderer" />
+		</bean>
+
+	<!--shaun-->
+	<bean id="defaultResponse" class="com.dp.alps.facades.data.DefaultResponse">
+	</bean>
+	<!--shaun-->
+	<bean id="alpsCustomerAccountFacade" class="com.dp.alps.facades.customeraccount.impl.AlpsCustomerAccountFacadeImpl">
+	</bean>
+
+
+</beans>

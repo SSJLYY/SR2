@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2017 SAP SE or an SAP affiliate company.  All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+<!--
+	ATTENTION: This is just an example file. You have to edit it according to your needs.
+-->
+
+<items 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+			xsi:noNamespaceSchemaLocation="items.xsd">
+	<collectiontypes>
+		<collectiontype code="ServiceOrderEntryCollection" elementtype="ServiceOrderEntry" autocreate="true" generate="false"
+						type="list"/>
+	</collectiontypes>
+
+	<enumtypes>
+		<enumtype generate="true" code="VehicleStatus" autocreate="true" dynamic="true">
+			<value code="VALID"/>
+			<value code="INVALID"/>
+		</enumtype>
+		<enumtype generate="true" code="VehicleType" autocreate="true" dynamic="true">
+			<value code="NEW"/>
+			<value code="CUSTOMER"/>
+			<value code="INTERNAL"/>
+		</enumtype>
+        <enumtype generate="true" code="Vehicle2UserType" autocreate="true" dynamic="true">
+            <value code="owner"/>
+            <value code="agent"/>
+        </enumtype>
+		<enumtype generate="true" code="BuyerCategory" autocreate="true" dynamic="true">
+			<value code="general"/>
+			<value code="agreement"/>
+			<value code="wholesale"/>
+		</enumtype>
+		<enumtype generate="true" code="CustomerRole" autocreate="true" dynamic="true">
+			<value code="customer"/>
+			<value code="supplier"/>
+			<value code="interior"/>
+		</enumtype>
+		<enumtype code="CustomerType" generate="false"  autocreate="false" dynamic="true">
+			<value code="personal" />
+			<value code="company" />
+		</enumtype>
+		<enumtype code="CustomerStatus" generate="true"  autocreate="true" dynamic="true">
+			<value code="valid" />
+			<value code="invalid" />
+			<value code="frozen" />
+		</enumtype>
+	</enumtypes>
+
+	<relations>
+		<relation code="Customer2VehicleInfoRelation" autocreate="true" generate="true" localized="false">
+			<deployment table="Customer2VehicleRel" typecode="14040"/>
+			<sourceElement type="Customer" qualifier="agents" cardinality="many">
+				<modifiers read="true" write="true" search="true" optional="true"/>
+			</sourceElement>
+			<targetElement type="VehicleInfo" qualifier="vehicleInfo" cardinality="many">
+				<modifiers read="true" write="true" search="true" optional="true"/>
+			</targetElement>
+		</relation>
+	</relations>
+
+	<itemtypes>
+        <itemtype code="Vehicle2User" autocreate="true" generate="true">
+            <deployment table="vehicle2user" typecode="14051"/>
+            <attributes>
+                <attribute qualifier="vehicleInfo" type="VehicleInfo">
+                    <modifiers read="true" write="true" search="true"/>
+                    <persistence type="property" />
+                </attribute>
+                <attribute qualifier="userType" type="Vehicle2UserType">
+                    <modifiers read="true" write="true" search="true"/>
+                    <persistence type="property" />
+                </attribute>
+                <attribute qualifier="user" type="Customer">
+                    <modifiers read="true" write="true" search="true"/>
+                    <persistence type="property" />
+                </attribute>
+            </attributes>
+        </itemtype>
+        <itemtype code="VehicleInsuranceInfo" autocreate="true" generate="true">
+            <deployment table="VehicleInsuranceInfo" typecode="14052"/>
+            <attributes>
+                <attribute qualifier="type" type="java.lang.String">
+                    <modifiers read="true" write="true" search="true"/>
+                    <persistence type="property" />
+                </attribute>
+                <attribute qualifier="company" type="java.lang.String">
+                    <modifiers read="true" write="true" search="true"/>
+                    <persistence type="property" />
+                </attribute>
+                <attribute qualifier="number" type="java.lang.String">
+                    <modifiers read="true" write="true" search="true"/>
+                    <persistence type="property" />
+                </attribute>
+                <attribute qualifier="startTime" type="java.util.Date">
+                    <modifiers read="true" write="true" search="true"/>
+                    <persistence type="property" />
+                </attribute>
+                <attribute qualifier="endTime" type="java.util.Date">
+                    <modifiers read="true" write="true" search="true"/>
+                    <persistence type="property" />
+                </attribute>
+                <attribute qualifier="vehicleInfo" type="VehicleInfo">
+                    <modifiers read="true" write="true" search="true"/>
+                    <persistence type="property" />
+                </attribute>
+            </attributes>
+        </itemtype>
+        <itemtype code="VehicleMaintainInfo" autocreate="true" generate="true">
+            <deployment table="VehicleMaintainInfo" typecode="14053"/>
+            <attributes>
+                <attribute qualifier="number" type="java.lang.String">
+                    <modifiers read="true" write="true" search="true"/>
+                    <persistence type="property" />
+                </attribute>
+                <attribute qualifier="startTime" type="java.util.Date">
+                    <modifiers read="true" write="true" search="true"/>
+                    <persistence type="property" />
+                </attribute>
+                <attribute qualifier="endTime" type="java.util.Date">
+                    <modifiers read="true" write="true" search="true"/>
+                    <persistence type="property" />
+                </attribute>
+                <attribute qualifier="store" type="BaseStore">
+                    <modifiers read="true" write="true" search="true"/>
+                    <persistence type="property" />
+                </attribute>
+                <attribute qualifier="contact" type="Customer">
+                    <modifiers read="true" write="true" search="true"/>
+                    <persistence type="property" />
+                </attribute>
+                <attribute qualifier="vehicleInfo" type="VehicleInfo">
+                    <modifiers read="true" write="true" search="true"/>
+                    <persistence type="property" />
+                </attribute>
+            </attributes>
+        </itemtype>
+        <itemtype code="VehicleIncreaseInfo" autocreate="true" generate="true">
+            <deployment table="VehicleIncreaseInfo" typecode="14054"/>
+            <attributes>
+                <attribute qualifier="number" type="java.lang.String">
+                    <modifiers read="true" write="true" search="true"/>
+                    <persistence type="property" />
+                </attribute>
+                <attribute qualifier="store" type="BaseStore">
+                    <modifiers read="true" write="true" search="true"/>
+                    <persistence type="property" />
+                </attribute>
+                <attribute qualifier="price" type="java.lang.Double">
+                    <modifiers read="true" write="true" search="true"/>
+                    <persistence type="property" />
+                </attribute>
+                <attribute qualifier="vehicleInfo" type="VehicleInfo">
+                    <modifiers read="true" write="true" search="true"/>
+                    <persistence type="property" />
+                </attribute>
+            </attributes>
+        </itemtype>
+		<itemtype code="VehicleInfo" autocreate="true" generate="true">
+			<deployment table="VehicleInfo" typecode="13030" />
+			<attributes>
+				<attribute qualifier="vehicleType" type="VehicleType">
+					<modifiers read="true" write="true" search="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="status" type="VehicleStatus">
+					<modifiers read="true" write="true" search="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="vinNumber" type="java.lang.String">
+					<modifiers read="true" write="true" search="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="code" type="java.lang.String">
+					<modifiers read="true" write="true" search="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="vehicleBrand" type="Category">
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="vehicleCategory" type="Category">
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="vehicle" type="Product">
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="purchaseYear" type="java.lang.String">
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="store" type="BaseStore">
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="creator" type="Customer">
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="mileage" type="java.lang.Integer">
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="warrantyCycle" type="java.lang.Integer">
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="warrantyMileage" type="java.lang.Integer">
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="warrantyLastDate" type="java.util.Date">
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="warrantyStartDate" type="java.util.Date">
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="enterFactoryDate" type="java.util.Date">
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="licensePlateNumber" type="java.lang.String">
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="customer" type="Customer">
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="color" type="java.lang.String">
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
+			</attributes>
+		</itemtype>
+
+		<itemtype code="Customer" autocreate="false" generate="false">
+			<attributes>
+				<attribute qualifier="mobileNumber" type="java.lang.String">
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="status" type="CustomerStatus">
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="customerRole" type="CustomerRole">
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="attribute" type="BuyerCategory">
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="store" type="BaseStore">
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
+			</attributes>
+		</itemtype>
+
+		<itemtype code="Address" autocreate="false" generate="false">
+			<attributes>
+				<attribute qualifier="provinceRef" type="Province">
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cityRef" type="City">
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="districtRef" type="District">
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="identityType" type="java.lang.String">
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="identityNumber" type="java.lang.String">
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
+			</attributes>
+		</itemtype>
+
+		<itemtype code="Province" autocreate="true" generate="true"
+				  jaloclass="com.bp.alps.vehiclecommerceservices.jalo.type.Province">
+			<deployment table="Province" typecode="13004"/>
+			<attributes>
+				<attribute qualifier="code" type="java.lang.String">
+					<description>??</description>
+					<persistence type="property"/>
+					<modifiers read="true" write="true" search="true"/>
+				</attribute>
+				<attribute qualifier="name" type="java.lang.String">
+					<description>??</description>
+					<persistence type="property"/>
+					<modifiers read="true" write="true" search="true" optional="true" />
+				</attribute>
+			</attributes>
+		</itemtype>
+		<itemtype code="City" autocreate="true" generate="true"
+				  jaloclass="com.bp.alps.vehiclecommerceservices.jalo.type.Province">
+			<deployment table="City" typecode="13005"/>
+			<attributes>
+				<attribute qualifier="code" type="java.lang.String">
+					<description>??</description>
+					<persistence type="property"/>
+					<modifiers read="true" write="true" search="true"/>
+				</attribute>
+				<attribute qualifier="name" type="java.lang.String">
+					<description>??</description>
+					<persistence type="property"/>
+					<modifiers read="true" write="true" search="true" optional="true" />
+				</attribute>
+				<attribute qualifier="province" type="Province">
+					<description>??</description>
+					<persistence type="property"/>
+					<modifiers read="true" write="true" search="true" optional="true" />
+				</attribute>
+			</attributes>
+		</itemtype>
+		<itemtype code="District" autocreate="true" generate="true"
+				  jaloclass="com.bp.alps.vehiclecommerceservices.jalo.type.Province">
+			<deployment table="District" typecode="13006"/>
+			<attributes>
+				<attribute qualifier="code" type="java.lang.String">
+					<description></description>
+					<persistence type="property"/>
+					<modifiers read="true" write="true" search="true"/>
+				</attribute>
+				<attribute qualifier="name" type="java.lang.String">
+					<description></description>
+					<persistence type="property"/>
+					<modifiers read="true" write="true" search="true" optional="true" />
+				</attribute>
+				<attribute qualifier="province" type="Province">
+					<description></description>
+					<persistence type="property"/>
+					<modifiers read="true" write="true" search="true" optional="true" />
+				</attribute>
+				<attribute qualifier="city" type="City">
+					<description></description>
+					<persistence type="property"/>
+					<modifiers read="true" write="true" search="true" optional="true" />
+				</attribute>
+			</attributes>
+		</itemtype>
+
+		<itemtype code="MaterielProduct" extends="Product" autocreate="true" generate="false">
+		</itemtype>
+
+		<itemtype code="VoucherProduct" extends="Product" autocreate="true" generate="false">
+		</itemtype>
+
+		<itemtype code="OrderStatusOption" autocreate="true" generate="true">
+			<deployment table="OrderStatusOption" typecode="13060"/>
+			<attributes>
+				<attribute qualifier="orderType" type="java.lang.String">
+					<description></description>
+					<persistence type="property"/>
+					<modifiers read="true" write="true" search="true"/>
+				</attribute>
+				<attribute qualifier="status" type="OrderStatus">
+					<description></description>
+					<persistence type="property"/>
+					<modifiers read="true" write="true" search="true" optional="true" />
+				</attribute>
+			</attributes>
+		</itemtype>
+
+		<itemtype code="AbstractOrderEntry" autocreate="false"
+				  generate="false">
+			<attributes>
+				<attribute qualifier="productType" type="java.lang.String">
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="discountRate" type="java.lang.Double">
+					<modifiers read="true" write="true" search="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="actualPrice" type="java.lang.Double">
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
+			</attributes>
+		</itemtype>
+
+		<itemtype code="AbstractOrder"
+				  autocreate="false"
+				  generate="false"
+				  abstract="true">
+			<attributes>
+				<attribute qualifier="consultant" type="Customer">
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="orderDescription" type="java.lang.String">
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
+                <attribute qualifier="otherPaymentMethod" type="java.lang.String">
+                    <modifiers read="true" write="true" search="true" optional="true"/>
+                    <persistence type="property" />
+                </attribute>
+				<attribute qualifier="vehicle" type="VehicleInfo">
+					<description></description>
+					<persistence type="property"/>
+					<modifiers read="true" write="true" search="true"/>
+				</attribute>
+			</attributes>
+		</itemtype>
+		<itemtype code="ReturnRequest" autocreate="false" generate="false">
+			<attributes>
+				<attribute qualifier="user" type="Customer">
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="consultant" type="Customer">
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="vehicle" type="VehicleInfo">
+					<description></description>
+					<persistence type="property"/>
+					<modifiers read="true" write="true" search="true"/>
+				</attribute>
+			</attributes>
+		</itemtype>
+        <itemtype code="ReturnEntryRecord" extends="ReturnEntry"
+                  jaloclass="com.bp.alps.vehiclecommerceservices.jalo.ReturnOrderEntry"
+                  autocreate="true"
+                  generate="true"
+                  abstract="false">
+            <attributes>
+            </attributes>
+        </itemtype>
+	</itemtypes>
+</items>

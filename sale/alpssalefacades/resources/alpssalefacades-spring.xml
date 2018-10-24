@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2017 SAP SE or an SAP affiliate company.  All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean id="alpssalefacadesSystemSetup" class="com.bp.alps.facades.setup.AlpssalefacadesSystemSetup">
+        <!-- constructor arg injection example -->
+        <constructor-arg ref="alpssalefacadesService"/>
+    </bean>
+
+    <bean id="alpssalefacadesService" class="com.bp.alps.facades.service.impl.DefaultAlpssalefacadesService">
+        <!-- setter injection example -->
+        <property name="modelService" ref="modelService"/>
+        <property name="mediaService" ref="mediaService"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="salesStaffConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.facades.data.SalesStaffData" />
+        <property name="populators">
+            <list>
+                <ref bean="salesStaffPupulator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="salesStaffPupulator" class="com.bp.alps.facades.populators.SalesStaffPopulator"/>
+
+    <alias name="salesEnumConverter" alias="enumConverter"/>
+    <bean id="salesEnumConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="de.hybris.platform.cmsfacades.data.OptionData" />
+        <property name="populators">
+            <list>
+                <ref bean="enumPupulator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="enumPupulator" class="com.bp.alps.facades.populators.EnumPupulator"/>
+
+    <bean id="customerSteamInputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.core.model.type.CustomerStreamModel" />
+        <property name="populators">
+            <list>
+                <ref bean="customerSteamInputPoplator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="customerSteamInputPoplator" class="com.bp.alps.facades.populators.CustomerStreamInputPoplator"/>
+
+    <bean id="customerSteamOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.facades.data.CustomerFlowData" />
+        <property name="populators">
+            <list>
+                <ref bean="customerSteamOutputPoplator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="customerSteamOutputPoplator" class="com.bp.alps.facades.populators.CustomerStreamOutputPoplator"/>
+
+    <bean id="salesStaffFacade" class="com.bp.alps.facades.employee.impl.SalesStaffFacadeImpl" parent="alpsConsultantFacade"/>
+
+    <bean id="customerStreamFacade" class="com.bp.alps.facades.customersteam.impl.CustomerStreamFacadeImpl"/>
+
+    <bean id="opportunityOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.facades.data.opp.OpportunityData" />
+        <property name="populators">
+            <list>
+                <ref bean="opportunityOutputPoplator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="opportunityOutputPoplator" class="com.bp.alps.facades.populators.OpportunityOutputPoplator"/>
+
+    <bean id="opportunityInputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.core.model.type.OpportunityModel" />
+        <property name="populators">
+            <list>
+                <ref bean="opportunityInputPoplator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="opportunityInputPoplator" class="com.bp.alps.facades.populators.OpportunityInputPoplator"/>
+
+    <bean id="opportunityListOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.facades.data.opp.OpportunityListData" />
+        <property name="populators">
+            <list>
+                <ref bean="opportunityListOutputPoplator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="opportunityListOutputPoplator" class="com.bp.alps.facades.populators.OpportunityListOutputPoplator"/>
+
+    <bean id="opportunityFacade" class="com.bp.alps.facades.opportunity.impl.OpportunityFacadeImpl"/>
+
+    <bean id="followContentInputPoplator" class="com.bp.alps.facades.populators.FollowContentInputPoplator"/>
+
+    <bean id="followContentInputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.core.model.type.FollowContentModel" />
+        <property name="populators">
+            <list>
+                <ref bean="followContentInputPoplator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="followContentOutputPoplator" class="com.bp.alps.facades.populators.FollowContentOutputPoplator"/>
+
+    <bean id="followContentOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.facades.data.opp.FollowContentData" />
+        <property name="populators">
+            <list>
+                <ref bean="followContentOutputPoplator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="followOpportunityInputPoplator" class="com.bp.alps.facades.populators.FollowOpportunityInputPoplator"/>
+
+    <bean id="followOpportunityInputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.core.model.type.FollowOpportunityModel" />
+        <property name="populators">
+            <list>
+                <ref bean="followOpportunityInputPoplator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="followOpportunityOutputPoplator" class="com.bp.alps.facades.populators.FollowOpportunityOutputPoplator"/>
+
+    <bean id="followOpportunityOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.facades.data.opp.FollowOpportunityData" />
+        <property name="populators">
+            <list>
+                <ref bean="followOpportunityOutputPoplator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="marketActivityOutputPoplator" class="com.bp.alps.facades.populators.MarketActivityOutputPoplator"/>
+
+    <bean id="marketActivityOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.facades.data.MarketActivityData" />
+        <property name="populators">
+            <list>
+                <ref bean="marketActivityOutputPoplator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="followOpportunityFacade" class="com.bp.alps.facades.followopportunity.impl.FollowOpportunityFacadeImpl"/>
+
+    <bean id="alpsCategorySource" parent="defaultCategorySource">
+        <property name="rootCategory" value="${alps.sales.default.category.code}"/>
+    </bean>
+
+    <bean id="alpsSaleCategoryCodeValueProvider" class="com.bp.alps.facades.solrfacetsearch.provider.impl.AlpsSaleCategoryCodeValueProvider" parent="abstractCategoryCodeValueProvider">
+        <property name="categorySource" ref="alpsCategorySource"/>
+    </bean>
+
+    <bean id="productVariantItemTypeValueProvider" class="com.bp.alps.facades.solrfacetsearch.provider.impl.ProductVariantItemTypeValueProvider"></bean>
+
+    <!--shaun-->
+    <bean id="productSolrItemValueProvider" class="com.bp.after.sale.facades.solrfacetsearch.provider.impl.ProductSolrItemValueProvider"></bean>
+
+
+    <bean id="vehicleColorFacetValueProvider" class="com.bp.alps.facades.solrfacetsearch.provider.impl.VehicleColorFacetValueProvider"/>
+
+    <bean id="storeVoucherConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.facades.data.voucher.StoreVoucherData" />
+        <property name="populators">
+            <list>
+                <ref bean="storeVoucherPoplator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="storeVoucherPoplator" class="com.bp.alps.facades.populators.StoreVoucherPoplator"/>
+
+    <bean id="storeVoucherFacadeImpl" class="com.bp.alps.facades.voucher.impl.StoreVoucherFacadeImpl"/>
+
+    <bean id="quotationEntryParameterConverter" class="com.bp.alps.facades.quotation.impl.QuotationEntryParameterConverterImpl"/>
+
+    <bean id="vehicleProductDataPopulator" class="com.bp.alps.facades.populators.abstractOrder.VehicleProductDataPopulator"/>
+
+    <bean id="quotationFacade" class="com.bp.alps.facades.quotation.impl.QuotationFacadeImpl"/>
+
+    <bean id="quotationInfoOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.facades.data.quotation.QuotationData" />
+        <property name="populators">
+            <list>
+                <ref bean="customerOutputPopulator"/>
+                <ref bean="abstractOrderOutputPopulator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="customerOutputPopulator" class="com.bp.alps.facades.populators.quotation.output.CustomerOutputPopulator"/>
+
+    <bean id="financeOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.facades.data.quotation.QuotationData" />
+        <property name="populators">
+            <list>
+                <ref bean="financeOutputPopulator" />
+            </list>
+        </property>
+    </bean>
+    <bean id="financeOutputPopulator" class="com.bp.alps.facades.populators.abstractOrder.output.FinanceOutputPopulator"/>
+
+    <bean id="licensePlateInfoOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.facades.data.quotation.QuotationData" />
+        <property name="populators">
+            <list>
+                <ref bean="licensePlateInfoOutputPopulator" />
+            </list>
+        </property>
+    </bean>
+    <bean id="licensePlateInfoOutputPopulator" class="com.bp.alps.facades.populators.abstractOrder.output.LicensePlateInfoOutputPopulator"/>
+
+    <bean id="usedcarOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.facades.data.quotation.QuotationData" />
+        <property name="populators">
+            <list>
+                <ref bean="usedcarOutputPopulator" />
+            </list>
+        </property>
+    </bean>
+    <bean id="usedcarOutputPopulator" class="com.bp.alps.facades.populators.abstractOrder.output.UsedcarOutputPopulator"/>
+
+    <bean id="abstractOrderOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.facades.data.quotation.QuotationData" />
+        <property name="populators">
+            <list>
+                <ref bean="abstractOrderOutputPopulator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="abstractOrderOutputPopulator" class="com.bp.alps.facades.populators.abstractOrder.output.AbstractOrderOutputPopulator"/>
+
+    <bean id="salesOrderAttributeOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.facades.data.quotation.QuotationData" />
+        <property name="populators">
+            <list>
+                <ref bean="salesOrderAttributeOutputPopulator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="salesOrderAttributeOutputPopulator" class="com.bp.alps.facades.populators.abstractOrder.output.SalesOrderAttributeOutputPopulator"/>
+
+    <bean id="orderInfoOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.facades.data.order.OrderInfoData" />
+        <property name="populators">
+            <list>
+                <ref bean="abstractOrderOutputPopulator" />
+                <ref bean="customerDataOutputPopulaor"/>
+                <ref bean="vehicleInfoDataOutputPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="quotationInfoConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.core.model.QuotationInfoModel" />
+        <property name="populators">
+            <list>
+                <ref bean="quotationInfoPopulator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="orderInfoConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.core.model.VehicleOrderModel" />
+        <property name="populators">
+            <list>
+                <ref bean="customerDataPopulator" />
+                <ref bean="orderInfoDataPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="quotationInfoPopulator" class="com.bp.alps.facades.populators.quotation.QuotationInfoPopulator"/>
+
+    <bean id="vehicleInfoDataOutputPopulator" class="com.bp.alps.facades.populators.order.output.VehicleInfoDataOutputPopulator"/>
+
+    <bean id="orderInfoDataPopulator" class="com.bp.alps.facades.populators.order.OrderInfoDataPopulator"/>
+
+    <bean id="customerDataPopulator" class="com.bp.alps.facades.populators.order.CustomerDataPopulator"/>
+
+    <bean id="financeConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.core.model.FinanceInfoModel" />
+        <property name="populators">
+            <list>
+                <ref bean="financePopulator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="financePopulator" class="com.bp.alps.facades.populators.abstractOrder.FinancePopulator"/>
+
+    <bean id="licensePlateInfoConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.core.model.LicensePlateInfoModel" />
+        <property name="populators">
+            <list>
+                <ref bean="licensePlateInfoPopulator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="licensePlateInfoPopulator" class="com.bp.alps.facades.populators.abstractOrder.LicensePlateInfoPopulator"/>
+
+    <bean id="usedcarConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.core.model.UsedcarInfoModel" />
+        <property name="populators">
+            <list>
+                <ref bean="usedcarPopulator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="usedcarPopulator" class="com.bp.alps.facades.populators.abstractOrder.UsedcarPopulator"/>
+
+    <bean id="abstractOrderConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="de.hybris.platform.core.model.order.AbstractOrderModel" />
+        <property name="populators">
+            <list>
+                <ref bean="abstractOrderPopulator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="abstractOrderPopulator" class="com.bp.alps.facades.populators.abstractOrder.AbstractOrderPopulator"/>
+
+    <bean id="salesOrderAttributeConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.core.model.SalesOrderAttributeModel" />
+        <property name="populators">
+            <list>
+                <ref bean="salesOrderAttributePopulator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="salesOrderAttributePopulator" class="com.bp.alps.facades.populators.abstractOrder.SalesOrderAttributePopulator"/>
+
+    <bean id="voucherInputForQuotationConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.core.model.StoreVoucherDescriptionModel" />
+        <property name="populators">
+            <list>
+                <ref bean="voucherInputForQuotationPopulator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="voucherInputForQuotationPopulator" class="com.bp.alps.facades.populators.quotation.VoucherInputForQuotationPopulator"/>
+
+    <bean id="quotationListDataConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.facades.data.quotation.QuotationListData" />
+        <property name="populators">
+            <list>
+                <ref bean="quotationListOutputPopulator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="quotationListOutputPopulator" class="com.bp.alps.facades.populators.quotation.output.QuotationListOutputPopulator"/>
+
+    <bean id="defaultEntryOutputConverter" class="com.bp.alps.facades.quotation.impl.DefaultEntryOutputConverterImpl"/>
+
+    <bean id="vehicleProductDataOutputPopulator" class="com.bp.alps.facades.populators.abstractOrder.output.VehicleProductDataOutputPopulator"/>
+
+    <!--shaun-->
+    <bean id="alpsCustomerAccountFacade" class="com.bp.alps.facades.customeraccount.impl.AlpsCustomerAccountFacadeImpl">
+    </bean>
+
+
+    <bean id="followOpportunityListOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.facades.data.opp.FollowOpportunityListData" />
+        <property name="populators">
+            <list>
+                <ref bean="followOpportunityListOutputPoplator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="followOpportunityListOutputPoplator" class="com.bp.alps.facades.populators.FollowOpportunityListOutputPoplator"/>
+
+    <bean id="alpsOrderFacade" class="com.bp.alps.facades.order.impl.OrderFacadeImpl"/>
+
+    <bean id="orderEntryParameterConverter" class="com.bp.alps.facades.order.impl.OrderEntryParameterConverterImpl"/>
+
+    <bean id="orderListOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.facades.data.order.OrderInfoListData" />
+        <property name="populators">
+            <list>
+                <ref bean="orderListOutputPopulator" />
+                <ref bean="vehicleInfoListOutputPopulator"/>
+                <ref bean="vehicleProductDataOutputPopulator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="vehicleInfoListOutputPopulator" class="com.bp.alps.facades.populators.order.output.VehicleInfoListOutputPopulator"/>
+
+    <bean id="orderListOutputPopulator" class="com.bp.alps.facades.populators.order.output.OrderListOutputPopulator"/>
+
+    <bean id="storeVoucherFacade" class="com.bp.alps.facades.voucher.impl.StoreVoucherFacadeImpl"/>
+
+    <bean id="orderMessagesConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.facades.data.order.OrderProcessRecordData" />
+        <property name="populators">
+            <list>
+                <ref bean="orderMessagesPopulaor" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="orderMessagesPopulaor" class="com.bp.alps.facades.populators.order.output.OrderMessagesPopulaor"/>
+
+    <bean id="customerDataOutputPopulaor" class="com.bp.alps.facades.populators.order.output.CustomerDataOutputPopulaor"/>
+</beans>

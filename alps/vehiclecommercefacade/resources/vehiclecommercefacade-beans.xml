@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2017 SAP SE or an SAP affiliate company.  All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+<!--
+	ATTENTION: This is just an example file. You have to edit it according to your needs.
+-->
+
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="beans.xsd">
+	<bean class="com.bp.alps.facades.data.DefaultResponse">
+		<annotations>@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_ABSENT)</annotations>
+		<property name="success" type="java.lang.Boolean"/>
+		<property name="messageCode" type="java.lang.String"/>
+		<property name="message" type="java.lang.String"/>
+	</bean>
+
+	<bean class="com.bp.alps.facades.data.DefaultPageableRequest">
+		<annotations>@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_ABSENT)</annotations>
+		<property name="pagesize" type="java.lang.Integer"/>
+		<property name="currentPage" type="java.lang.Integer"/>
+	</bean>
+
+	<bean class="com.bp.alps.facades.data.DefaultPageableResponse" extends="com.bp.alps.facades.data.DefaultResponse">
+		<annotations>@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_ABSENT)</annotations>
+		<property name="totalPage" type="java.lang.Integer"/>
+	</bean>
+
+	<bean class="com.bp.alps.facades.data.order.CustomerInfoData" extends="com.bp.alps.facades.data.customer.CustomerBaseData">
+		<annotations>@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_ABSENT)</annotations>
+		<property name="identityType" type="java.lang.String"/>
+        <property name="identityNumber" type="java.lang.String"/>
+		<property name="otherContactNumber" type="java.lang.String"/>
+		<property name="customerSource" type="java.lang.String"/>
+		<property name="provinceCode" type="java.lang.String"/>
+		<property name="province" type="java.lang.String"/>
+		<property name="cityCode" type="java.lang.String"/>
+		<property name="city" type="java.lang.String"/>
+		<property name="districtCode" type="java.lang.String"/>
+		<property name="district" type="java.lang.String"/>
+		<property name="address" type="java.lang.String"/>
+		<property name="creator" type="java.lang.String"/>
+		<property name="creationtime" type="java.lang.String"/>
+	</bean>
+
+	<bean class="com.bp.alps.facades.data.customer.CustomerBaseData">
+		<annotations>@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_ABSENT)</annotations>
+        <property name="uid" type="java.lang.String"/>
+		<property name="name" type="java.lang.String"/>
+		<property name="customerType" type="java.lang.String"/>
+		<property name="customerTypeCode" type="java.lang.String"/>
+		<property name="attribute" type="java.lang.String"/>
+		<property name="attributeCode" type="java.lang.String"/>
+		<property name="role" type="java.lang.String"/>
+		<property name="roleCode" type="java.lang.String"/>
+		<property name="status" type="java.lang.String"/>
+		<property name="statusCode" type="java.lang.String"/>
+		<property name="mobileNumber" type="java.lang.String"/>
+		<property name="creationtime" type="java.lang.String"/>
+	</bean>
+
+	<bean class="com.bp.alps.facades.data.customer.CustomerSearchRequest" extends="com.bp.alps.facades.data.DefaultPageableRequest">
+		<annotations>@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_ABSENT)</annotations>
+		<property name="searchText" type="java.lang.String"/>
+        <property name="name" type="java.lang.String"/>
+        <property name="phone" type="java.lang.String"/>
+		<property name="customerType" type="java.lang.String"/>
+		<property name="role" type="java.lang.String"/>
+		<property name="attribute" type="java.lang.String"/>
+		<property name="beforetimeKey" type="java.lang.String"/>
+	</bean>
+
+	<bean class="com.bp.alps.facades.data.customer.CustomerSearchResponse" extends="com.bp.alps.facades.data.DefaultPageableResponse">
+		<annotations>@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_ABSENT)</annotations>
+		<property name="customerList" type="java.util.List&lt;com.bp.alps.facades.data.customer.CustomerBaseData&gt;"/>
+	</bean>
+
+	<bean class="com.bp.alps.facades.data.vehicle.VehicleInfoData" extends="com.bp.alps.facades.data.vehicle.VehicleInfoBaseData">
+		<annotations>@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_ABSENT)</annotations>
+		<property name="purchaseYear" type="java.lang.String"/>
+		<property name="color" type="java.lang.String"/>
+		<property name="vehicleType" type="java.lang.String"/>
+		<property name="vehicleTypeCode" type="java.lang.String"/>
+		<property name="mileage" type="java.lang.Integer"/>
+		<property name="store" type="java.lang.String"/>
+		<property name="storeCode" type="java.lang.String"/>
+		<property name="creator" type="java.lang.String"/>
+		<property name="warrantyCycle" type="java.lang.Integer"/>
+		<property name="warrantyMileage" type="java.lang.Integer"/>
+		<property name="warrantyLastDate" type="java.lang.String"/>
+		<property name="warrantyStartDate" type="java.lang.String"/>
+		<property name="enterFactoryDate" type="java.lang.String"/>
+	</bean>
+
+	<bean class="com.bp.alps.facades.data.vehicle.Vehicle2User">
+		<property name="pk" type="java.lang.String"/>
+		<property name="userType" type="java.lang.String"/>
+		<property name="uid" type="java.lang.String"/>
+		<property name="name" type="java.lang.String"/>
+		<property name="mobile" type="java.lang.String"/>
+		<property name="vehicleCode" type="java.lang.String"/>
+	</bean>
+
+	<bean class="com.bp.alps.facades.data.vehicle.InsuranceData">
+		<property name="pk" type="java.lang.String"/>
+		<property name="type" type="java.lang.String"/>
+		<property name="company" type="java.lang.String"/>
+		<property name="number" type="java.lang.String"/>
+		<property name="startTime" type="java.lang.String"/>
+		<property name="endTime" type="java.lang.String"/>
+		<property name="vehicleCode" type="java.lang.String"/>
+	</bean>
+
+	<bean class="com.bp.alps.facades.data.vehicle.MaintainData">
+		<property name="number" type="java.lang.String"/>
+		<property name="startTime" type="java.lang.String"/>
+		<property name="endTime" type="java.lang.String"/>
+		<property name="store" type="java.lang.String"/>
+		<property name="contactName" type="java.lang.String"/>
+	</bean>
+
+	<bean class="com.bp.alps.facades.data.vehicle.IncreaseData">
+		<property name="number" type="java.lang.String"/>
+		<property name="store" type="java.lang.String"/>
+		<property name="price" type="java.lang.Integer"/>
+	</bean>
+
+	<bean class="com.bp.alps.facades.data.vehicle.VehicleInfoBaseData">
+		<annotations>@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_ABSENT)</annotations>
+		<property name="code" type="java.lang.String"/>
+		<property name="licensePlateNumber" type="java.lang.String"/>
+		<property name="customerId" type="java.lang.String"/>
+		<property name="customerName" type="java.lang.String"/>
+		<property name="agentId" type="java.lang.String"/>
+		<property name="agentName" type="java.lang.String"/>
+		<property name="customerMobileNumber" type="java.lang.String"/>
+		<property name="vinNumber" type="java.lang.String"/>
+		<property name="vehicleBrand" type="java.lang.String"/>
+		<property name="vehicleBrandCode" type="java.lang.String"/>
+		<property name="vehicleCategory" type="java.lang.String"/>
+		<property name="vehicleCategoryCode" type="java.lang.String"/>
+		<property name="vehicle" type="java.lang.String"/>
+		<property name="vehicleCode" type="java.lang.String"/>
+		<property name="status" type="java.lang.String"/>
+		<property name="statusName" type="java.lang.String"/>
+        <property name="sequenceNumber" type="java.lang.Integer"/>
+		<property name="creationtime" type="java.lang.String"/>
+		<property name="vehicle2User" type="java.util.List&lt;com.bp.alps.facades.data.vehicle.Vehicle2User&gt;"/>
+		<property name="insurance" type="java.util.List&lt;com.bp.alps.facades.data.vehicle.InsuranceData&gt;"/>
+		<property name="maintain" type="java.util.List&lt;com.bp.alps.facades.data.vehicle.MaintainData&gt;"/>
+		<property name="increase" type="java.util.List&lt;com.bp.alps.facades.data.vehicle.IncreaseData&gt;"/>
+	</bean>
+
+	<bean class="com.bp.alps.facades.data.vehicle.SearchVehicleResponse" extends="com.bp.alps.facades.data.DefaultPageableResponse">
+		<annotations>@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_ABSENT)</annotations>
+		<property name="vehicleList" type="java.util.List&lt;com.bp.alps.facades.data.vehicle.VehicleInfoBaseData&gt;"/>
+	</bean>
+
+	<bean class="com.bp.alps.facades.data.category.CategoryListData">
+		<annotations>@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_ABSENT)</annotations>
+		<property name="code" type="java.lang.String"/>
+		<property name="name" type="java.lang.String"/>
+		<property name="subList" type="java.util.List&lt;com.bp.alps.facades.data.category.CategoryListData&gt;"/>
+	</bean>
+
+	<bean class="com.bp.alps.facades.data.product.ProductData">
+		<annotations>@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_ABSENT)</annotations>
+		<property name="categoryCode" type="java.lang.String"/>
+		<property name="code" type="java.lang.String"/>
+		<property name="name" type="java.lang.String"/>
+		<property name="color" type="java.lang.String"/>
+		<property name="price" type="java.lang.Double"/>
+		<property name="subProduct" type="java.util.List&lt;com.bp.alps.facades.data.product.ProductData&gt;"/>
+		<!--shaun-->
+		<property name="suggestedRetailPrice" type="java.lang.Double"/>
+		<property name="materialGroup" type="java.lang.String"/>
+		<property name="materialType" type="java.lang.String"/>
+		<property name="specificationModel" type="java.lang.String"/>
+		<property name="currency" type="java.lang.String"/>
+		<property name="manualDirectoryIdentifier" type="java.lang.String"/>
+		<property name="maintenanceItemCode" type="java.lang.String"/>
+		<property name="pricingReferenceMaterial" type="java.lang.String"/>
+		<property name="unitHourSalesPrice" type="java.lang.String"/>
+		<property name="artificialMainType" type="java.lang.String"/>
+		<property name="servicePackStatus" type="java.lang.String"/>
+		<property name="onlineDate" type="java.lang.String"/>
+		<property name="offlineDate" type="java.lang.String"/>
+		<property name="recentlyModifiedPerson" type="java.lang.String"/>
+	</bean>
+
+	<bean class="com.bp.alps.facades.data.abstractOrder.EntryData" extends="com.bp.alps.facades.data.product.ProductData">
+		<annotations>@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_ABSENT)</annotations>
+		<property name="code" type="java.lang.String"/>
+		<property name="price" type="java.lang.Double"/>
+		<property name="actualPrice" type="java.lang.Double"/>
+		<property name="quantity" type="java.lang.Integer"/>
+	</bean>
+
+	<bean class="com.bp.alps.facades.data.product.ProductSearchResponse" extends="com.bp.alps.facades.data.DefaultPageableResponse">
+		<annotations>@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_ABSENT)</annotations>
+		<property name="categoryList" type="java.util.List&lt;com.bp.alps.facades.data.category.CategoryListData&gt;"/>
+		<property name="productList" type="java.util.List&lt;com.bp.alps.facades.data.product.ProductData&gt;"/>
+	</bean>
+
+	<bean class="com.bp.alps.facades.data.vehicle.SearchVehicleRequest" extends="com.bp.alps.facades.data.DefaultPageableRequest">
+		<annotations>@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_ABSENT)</annotations>
+		<property name="code" type="java.lang.String"/>
+		<property name="customerName" type="java.lang.String"/>
+		<property name="mobileNumber" type="java.lang.String"/>
+		<property name="vinCode" type="java.lang.String"/>
+		<property name="licensePlateNumber" type="java.lang.String"/>
+		<property name="beforetimeKey" type="java.lang.String"/>
+	</bean>
+
+	<bean class="de.hybris.platform.commerceservices.search.solrfacetsearch.data.AlpsSolrSearchQueryData" extends="de.hybris.platform.commerceservices.search.solrfacetsearch.data.SolrSearchQueryData">
+		<description>POJO representing a Search query.</description>
+		<property name="materialType" type="String"/>
+		<property name="specificationModel" type="String"/>
+		<property name="maintenanceItemCode" type="String"/>
+		<property name="artificialMainType" type="String"/>
+		<property name="servicePackStatus" type="String"/>
+	</bean>
+
+</beans>

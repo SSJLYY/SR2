@@ -1,0 +1,135 @@
+$productCatalog=alpsProductCatalog
+$productCatalogName=alps Product Catalog
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+$baseProduct=baseProduct(code, catalogVersion(catalog(id[default='$productCatalog']),version[default='Staged']))
+$supercategories=source(code, $catalogVersion)[unique=true]
+$categories=target(code, $catalogVersion)[unique=true]
+$approved=approvalstatus(code)[default='approved']
+$lang=zh
+$currency=CNY
+$storeUid=alpsstore1
+
+INSERT_UPDATE MaterielProduct;code[unique=true];name[lang=$lang];summary[lang=$lang];$catalogVersion;unit(code);supercategories(code,$catalogVersion);varianttype(code);$approved;
+;M0001;等速万向节的摆动半轴;;;pieces;parts;;;
+;M0002;等速万向节的摆动半轴2;;;pieces;parts;;;
+;M0003;车身贴膜;;;pieces;decor;;;
+;M0004;座椅;;;pieces;decor;;;
+
+
+INSERT_UPDATE InsuranceProduct;code[unique=true];name[lang=$lang];summary[lang=$lang];$catalogVersion;unit(code);supercategories(code,$catalogVersion);varianttype(code);$approved;
+;I0001;交强险;;;pieces;vinsurance;;;
+;I0002;商业险;;;pieces;vinsurance;;;
+;I0003;延保1;;;pieces;dinsurance;;;
+;I0004;延保2;;;pieces;dinsurance;;;
+
+INSERT_UPDATE VoucherProduct;code[unique=true];name[lang=$lang];summary[lang=$lang];$catalogVersion;unit(code);supercategories(code,$catalogVersion);varianttype(code);$approved;
+;V0001;卡卷;;;pieces;voucher;;;
+;V0002;卡卷2;;;pieces;voucher;;;
+
+# Create products
+INSERT_UPDATE VehicleProduct;code[unique=true];name[lang=$lang];summary[lang=$lang];$catalogVersion;unit(code);supercategories(code,$catalogVersion);varianttype(code);$approved;
+;A0001;TFSI Sportback Design风尚版;奥迪A1 2016款 30 TFSI Sportback Design风尚版;;pieces;a6,variantroot;VehicleVariantProduct;;
+;A0002;Limousine 40 TFSI 运动型;奥迪A3 2017款 Limousine 40 TFSI 运动型;;pieces;a7,variantroot;VehicleVariantProduct;;
+;A0003;Sportback 40 TFSI 风尚型;奥迪A3 2017款 Sportback 40 TFSI 风尚型;;pieces;a8,variantroot;VehicleVariantProduct;;
+;A0004;Plus 40 TFSI 风尚型;奥迪A4L 2017款 Plus 40 TFSI 风尚型;;pieces;s3,variantroot;VehicleVariantProduct;;
+;A0005;Plus 45 TFSI quattro 风尚型;奥迪A4L 2017款 Plus 45 TFSI quattro 风尚型;;pieces;s5,variantroot;VehicleVariantProduct;;
+;B0001;118i 领先型;宝马1系(进口) 2016款 118i 领先型;;pieces;f20,variantroot;VehicleVariantProduct;;
+;B0002;220i 运动设计套装;宝马2系 2017款 220i 运动设计套装;;pieces;f22,variantroot;VehicleVariantProduct;;
+;B0003;318i 时尚型;宝马3系 2017款 318i 时尚型;;pieces;G30,variantroot;VehicleVariantProduct;;
+
+# Create ApparelStyleVariantProduct variants
+INSERT_UPDATE VehicleVariantProduct;code[unique=true];name[lang=$lang];summary[lang=$lang];$catalogVersion;$baseProduct;unit(code);colors[lang=$lang];supercategories(code,$catalogVersion)[default=variant];varianttype(code);$approved
+;A0001_B;TFSI Sportback Design风尚版 B;奥迪A1 2016款 30 TFSI Sportback Design风尚版;;A0001;pieces;BLACK;;;
+;A0001_W;TFSI Sportback Design风尚版 W;奥迪A1 2016款 30 TFSI Sportback Design风尚版;;A0001;pieces;WHITE;;;
+;A0002_B;Limousine 40 TFSI 运动型 B;奥迪A3 2017款 Limousine 40 TFSI 运动型;;A0002;pieces;BLACK;;;
+;A0002_W;Limousine 40 TFSI 运动型 W;奥迪A3 2017款 Limousine 40 TFSI 运动型;;A0002;pieces;WHITE;;;
+;A0003_B;Sportback 40 TFSI 风尚型 B;奥迪A3 2017款 Sportback 40 TFSI 风尚型;;A0003;pieces;BLACK;;;
+;A0003_W;Sportback 40 TFSI 风尚型 W;奥迪A3 2017款 Sportback 40 TFSI 风尚型;;A0003;pieces;WHITE;;;
+;A0004_B;Plus 40 TFSI 风尚型 B;奥迪A4L 2017款 Plus 40 TFSI 风尚型;;A0004;pieces;BLACK;;;
+;A0004_W;Plus 40 TFSI 风尚型 W;奥迪A4L 2017款 Plus 40 TFSI 风尚型;;A0004;pieces;WHITE;;;
+;A0005_B;Plus 45 TFSI quattro 风尚型 B;奥迪A4L 2017款 Plus 45 TFSI quattro 风尚型;;A0005;pieces;BLACK;;;
+;A0005_W;Plus 45 TFSI quattro 风尚型 W;奥迪A4L 2017款 Plus 45 TFSI quattro 风尚型;;A0005;pieces;WHITE;;;
+;B0001_B;118i 领先型 B;宝马1系(进口) 2016款 118i 领先型 B;;B0001;pieces;BLACK;;;
+;B0001_W;118i 领先型 W;宝马1系(进口) 2016款 118i 领先型 W;;B0001;pieces;WHITE;;;
+;B0002_B;220i 运动设计套装 B;宝马2系 2017款 220i 运动设计套装 B;;B0002;pieces;BLACK;;;
+;B0002_W;220i 运动设计套装 W;宝马2系 2017款 220i 运动设计套装 W;;B0002;pieces;WHITE;;;
+;B0003_B;318i 时尚型 B;宝马3系 2017款 318i 时尚型 B;;B0003;pieces;BLACK;;;
+;B0003_W;318i 时尚型 W;宝马3系 2017款 318i 时尚型 W;;B0003;pieces;WHITE;;;
+
+INSERT_UPDATE VehicleVariantProduct;code[unique=true];name[lang=$lang];summary[lang=$lang];$catalogVersion;$baseProduct;unit(code);colors[lang=en];supercategories(code,$catalogVersion)[default=variant];varianttype(code);$approved
+;A0001_B;TFSI Sportback Design风尚版 B;奥迪A1 2016款 30 TFSI Sportback Design风尚版;;A0001;pieces;BLACK;;;
+;A0001_W;TFSI Sportback Design风尚版 W;奥迪A1 2016款 30 TFSI Sportback Design风尚版;;A0001;pieces;WHITE;;;
+;A0002_B;Limousine 40 TFSI 运动型 B;奥迪A3 2017款 Limousine 40 TFSI 运动型;;A0002;pieces;BLACK;;;
+;A0002_W;Limousine 40 TFSI 运动型 W;奥迪A3 2017款 Limousine 40 TFSI 运动型;;A0002;pieces;WHITE;;;
+;A0003_B;Sportback 40 TFSI 风尚型 B;奥迪A3 2017款 Sportback 40 TFSI 风尚型;;A0003;pieces;BLACK;;;
+;A0003_W;Sportback 40 TFSI 风尚型 W;奥迪A3 2017款 Sportback 40 TFSI 风尚型;;A0003;pieces;WHITE;;;
+;A0004_B;Plus 40 TFSI 风尚型 B;奥迪A4L 2017款 Plus 40 TFSI 风尚型;;A0004;pieces;BLACK;;;
+;A0004_W;Plus 40 TFSI 风尚型 W;奥迪A4L 2017款 Plus 40 TFSI 风尚型;;A0004;pieces;WHITE;;;
+;A0005_B;Plus 45 TFSI quattro 风尚型 B;奥迪A4L 2017款 Plus 45 TFSI quattro 风尚型;;A0005;pieces;BLACK;;;
+;A0005_W;Plus 45 TFSI quattro 风尚型 W;奥迪A4L 2017款 Plus 45 TFSI quattro 风尚型;;A0005;pieces;WHITE;;;
+;B0001_B;118i 领先型 B;宝马1系(进口) 2016款 118i 领先型;;B0001;pieces;BLACK;;;
+;B0001_W;118i 领先型 W;宝马1系(进口) 2016款 118i 领先型;;B0001;pieces;WHITE;;;
+;B0002_B;220i 运动设计套装 B;宝马2系 2017款 220i 运动设计套装;;B0002;pieces;BLACK;;;
+;B0002_W;220i 运动设计套装 W;宝马2系 2017款 220i 运动设计套装;;B0002;pieces;WHITE;;;
+;B0003_B;318i 时尚型 B;宝马3系 2017款 318i 时尚型;;B0003;pieces;BLACK;;;
+;B0003_W;318i 时尚型 W;宝马3系 2017款 318i 时尚型;;B0003;pieces;WHITE;;;
+
+INSERT_UPDATE PriceRow;product(code,$catalogVersion)[unique=true];unit(code[unique=true,default=pieces]);$catalogVersion;currency(isocode[default=$currency])[unique=true];price;minqtd;unitFactor;net
+;A0001_W;pieces;;;301002;1;1;false
+;A0001_B;pieces;;;301003;1;1;false
+;A0001_W;pieces;;;301004;1;1;false
+;A0002_B;pieces;;;301005;1;1;false
+;A0002_W;pieces;;;301006;1;1;false
+;A0003_B;pieces;;;301007;1;1;false
+;A0003_W;pieces;;;301008;1;1;false
+;A0004_B;pieces;;;301009;1;1;false
+;A0004_W;pieces;;;301010;1;1;false
+;A0005_B;pieces;;;301011;1;1;false
+;A0005_W;pieces;;;301012;1;1;false
+;B0001_B;pieces;;;301013;1;1;false
+;B0001_W;pieces;;;301014;1;1;false
+;B0002_B;pieces;;;301015;1;1;false
+;B0002_W;pieces;;;301016;1;1;false
+;B0003_B;pieces;;;301017;1;1;false
+;B0003_W;pieces;;;301018;1;1;false
+;M0001;pieces;;;590;1;1;false
+;M0002;pieces;;;591;1;1;false
+;M0003;pieces;;;592;1;1;false
+;M0004;pieces;;;593;1;1;false
+;I0001;pieces;;;590;1;1;false
+;I0002;pieces;;;591;1;1;false
+;I0003;pieces;;;592;1;1;false
+;I0004;pieces;;;593;1;1;false
+;V0001;pieces;;;595;1;1;false
+;V0002;pieces;;;596;1;1;false
+
+INSERT_UPDATE StoreVoucherDescription;code[unique=true];name;price;store(uid[default=$storeUid]);
+;testcode;测试优惠劵;300.00;;
+
+INSERT_UPDATE StockLevel;available;warehouse(code)[default='default',unique=true];inStockStatus(code)[default='notSpecified'];overSelling;preOrder;productCode[unique=true];reserved
+;100;;notSpecified;0;0;A0001_B;0;
+;100;;notSpecified;0;0;A0001_W;0;
+;100;;notSpecified;0;0;A0002_B;0;
+;100;;notSpecified;0;0;A0002_W;0;
+;100;;notSpecified;0;0;A0003_B;0;
+;100;;notSpecified;0;0;A0003_W;0;
+;100;;notSpecified;0;0;A0004_B;0;
+;100;;notSpecified;0;0;A0004_W;0;
+;100;;notSpecified;0;0;A0005_B;0;
+;100;;notSpecified;0;0;A0005_W;0;
+;100;;notSpecified;0;0;B0001_W;0;
+;100;;notSpecified;0;0;B0001_B;0;
+;100;;notSpecified;0;0;B0002_W;0;
+;100;;notSpecified;0;0;B0002_B;0;
+;100;;notSpecified;0;0;B0003_W;0;
+;100;;notSpecified;0;0;B0003_B;0;
+;1;;forceInStock;0;0;M0001;0;
+;1;;forceInStock;0;0;M0002;0;
+;1;;forceInStock;0;0;M0003;0;
+;1;;forceInStock;0;0;M0004;0;
+;1;;forceInStock;0;0;I0001;0;
+;1;;forceInStock;0;0;I0002;0;
+;1;;forceInStock;0;0;I0003;0;
+;1;;forceInStock;0;0;I0004;0;
+;1;;forceInStock;0;0;V0001;0;
+;1;;forceInStock;0;0;V0002;0;

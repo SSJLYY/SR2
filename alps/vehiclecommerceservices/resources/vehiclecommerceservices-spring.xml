@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2017 SAP SE or an SAP affiliate company.  All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean id="vehiclecommerceservicesSystemSetup" class="com.bp.alps.vehiclecommerceservices.setup.VehiclecommerceservicesSystemSetup">
+        <!-- constructor arg injection example -->
+        <constructor-arg ref="vehiclecommerceservicesService"/>
+    </bean>
+
+    <bean id="vehiclecommerceservicesService" class="com.bp.alps.vehiclecommerceservices.service.impl.DefaultVehiclecommerceservicesService">
+        <!-- setter injection example -->
+        <property name="modelService" ref="modelService"/>
+        <property name="mediaService" ref="mediaService"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="alpsOrderEntryManagementStrategy" class="com.bp.alps.vehiclecommerceservices.order.impl.AlpsOrderEntryManagementStrategyImpl" parent="defaultCommerceAddToCartStrategy"/>
+
+    <bean id="alpsCommerceHandleOrderStrategy" class="com.bp.alps.vehiclecommerceservices.order.impl.AlpsCommerceHandleOrderStrategyImpl" parent="defaultCommercePlaceOrderStrategy"/>
+
+    <bean id="alpsCommerceOrderCalculationStrategy" class="com.bp.alps.vehiclecommerceservices.order.impl.CommerceOrderCalculationStrategyImpl" parent="defaultCommerceCartCalculationStrategy"/>
+
+    <bean id="dateFormatUtils" class="com.bp.alps.vehiclecommerceservices.utils.DateFormatUtils"/>
+
+    <bean id="cityDao" class="com.bp.alps.vehiclecommerceservices.dao.region.impl.CityDaoImpl">
+        <constructor-arg value="City"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="districtDao" class="com.bp.alps.vehiclecommerceservices.dao.region.impl.DistrictDaoImpl">
+        <constructor-arg value="District"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="provinceDao" class="com.bp.alps.vehiclecommerceservices.dao.region.impl.ProvinceDaoImpl">
+        <constructor-arg value="Province"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="regionService" class="com.bp.alps.vehiclecommerceservices.service.impl.RegionServiceImpl"/>
+
+    <bean id="alpsCommerceStockManagementStrategy" class="com.bp.alps.vehiclecommerceservices.order.impl.CommerceStockManagementStrategImpl"/>
+
+    <bean id="alpsDefaultOrderFactory" class="com.bp.alps.vehiclecommerceservices.order.impl.OrderFactoryImpl" parent="cartFactory">
+        <property name="keyGenerator" ref="orderCodeGenerator"/>
+        <property name="modelService" ref="modelService"/>
+        <property name="userService" ref="userService"/>
+        <property name="commonI18NService" ref="commonI18NService"/>
+    </bean>
+
+    <bean id="vehicleDao" class="com.bp.alps.vehiclecommerceservices.dao.impl.VehicleDaoImpl">
+        <constructor-arg value="VehicleInfo"/>
+        <property name="pagedFlexibleSearchService" ref="pagedFlexibleSearchService"/>
+    </bean>
+
+    <bean id="vehicleCodeGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.vehicle.code.name}"/>
+        <property name="digits" value="${keygen.vehicle.code.digits}"/>
+        <property name="start" value="${keygen.vehicle.code.start}"/>
+        <property name="type" value="${keygen.vehicle.code.type}"/>
+        <property name="template" value="${keygen.vehicle.code.template}"/>
+    </bean>
+
+    <bean id="vehicleService" class="com.bp.alps.vehiclecommerceservices.service.impl.VehicleServiceImpl">
+        <property name="keyPrefix" value="${keygen.vehicle.code.prefix}"/>
+    </bean>
+
+    <bean id="alpsCustomerService" class="com.bp.alps.vehiclecommerceservices.service.impl.AlpsCustomerServiceImpl"/>
+
+    <bean id="alpsCustomerDao" class="com.bp.alps.vehiclecommerceservices.dao.impl.AlpsCustomerDaompl">
+        <constructor-arg value="Customer"/>
+        <property name="pagedFlexibleSearchService" ref="pagedFlexibleSearchService"/>
+    </bean>
+
+    <bean id="vehicleInsuranceDao" class="com.bp.alps.vehiclecommerceservices.dao.vehicle.impl.VehicleInsuranceDaoImpl">
+        <constructor-arg value="VehicleInsuranceInfo"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="vehicleIncreaseDao" class="com.bp.alps.vehiclecommerceservices.dao.vehicle.impl.VehicleIncreaseDaoImpl">
+        <constructor-arg value="VehicleIncreaseInfo"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="vehicleMaintainDao" class="com.bp.alps.vehiclecommerceservices.dao.vehicle.impl.VehicleMaintainDaoImpl">
+        <constructor-arg value="VehicleMaintainInfo"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="vehicle2UserDao" class="com.bp.alps.vehiclecommerceservices.dao.vehicle.impl.Vehicle2UserDaoImpl">
+        <constructor-arg value="Vehicle2User"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="consultantDao" class="com.bp.alps.vehiclecommerceservices.dao.impl.ConsultantDaoImpl">
+        <constructor-arg value="Customer"/>
+        <property name="pagedFlexibleSearchService" ref="pagedFlexibleSearchService"/>
+    </bean>
+
+    <bean id="orderStatusOptionDao" class="com.bp.alps.vehiclecommerceservices.dao.impl.OrderStatusOptionDaoImpl">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="orderStatusService" class="com.bp.alps.vehiclecommerceservices.dao.impl.OrderStatusOptionDaoImpl">
+    </bean>
+
+    <bean id="consultantService" class="com.bp.alps.vehiclecommerceservices.service.impl.ConsultantServiceImpl" parent="defaultCustomerAccountService">
+    </bean>
+
+    <bean id="alpsCloneAbstractOrderStrategy" class="com.bp.alps.vehiclecommerceservices.order.impl.AlpsCloneAbstractOrderStrategyImpl" parent="defaultCloneAbstractOrderStrategy"></bean>
+
+    <bean id="orderStatusoStatusService" class="com.bp.alps.vehiclecommerceservices.service.impl.OrderStatusStatusServiceImpl"/>
+
+    <bean id="returnRequestFactory" class="com.bp.alps.vehiclecommerceservices.order.impl.ReturnRequestFactoryImpl">
+        <property name="keyGenerator" ref="RMACodeGenerator"/>
+    </bean>
+
+    <bean id="commerceReturnRequestCalculationStrategy" class="com.bp.alps.vehiclecommerceservices.order.impl.CommerceReturnRequestCalculationStrategyImpl"/>
+
+    <bean id="alpsCommerceHandleReturnStrategy" class="com.bp.alps.vehiclecommerceservices.order.impl.AlpsCommerceHandleReturnStrategyImpl"/>
+</beans>

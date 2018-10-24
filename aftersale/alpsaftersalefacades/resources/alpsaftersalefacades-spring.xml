@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2017 SAP SE or an SAP affiliate company.  All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd">
+	
+    <bean id="alpsaftersalefacadesSystemSetup" class="com.bp.after.sale.facades.setup.AlpsaftersalefacadesSystemSetup">
+        <!-- constructor arg injection example -->
+        <constructor-arg ref="alpsaftersalefacadesService"/>
+    </bean>
+
+    <bean id="alpsaftersalefacadesService" class="com.bp.after.sale.facades.service.impl.DefaultAlpsaftersalefacadesService">
+        <!-- setter injection example -->
+        <property name="modelService" ref="modelService"/>
+        <property name="mediaService" ref="mediaService"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <!--shaun-->
+    <bean id="pickupInStoreOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.after.sale.facades.data.PickupInStoreData" />
+        <property name="populators">
+            <list>
+                <ref bean="pickupInStoreOutputPoplator" />
+            </list>
+        </property>
+    </bean>
+
+    <!--shaun-->
+    <bean id="pickupInStoreOutputPoplator" class="com.bp.after.sale.facades.populators.PickupInStoreOutputPoplator"/>
+
+
+    <!--shaun 创建-->
+    <bean id="pickupInStoreInputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.after.sale.core.model.PickupInStoreModel" />
+        <property name="populators">
+            <list>
+                <ref bean="pickupInStoreInputPopulator" />
+            </list>
+        </property>
+    </bean>
+
+    <!--shaun 更新-->
+    <bean id="pickupInStoreInputUpdateConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.after.sale.core.model.PickupInStoreModel" />
+        <property name="populators">
+            <list>
+                <ref bean="pickupInStoreInputUpdatePopulator" />
+            </list>
+        </property>
+    </bean>
+
+    <!--shaun-->
+    <bean id="pickupInStoreInputPopulator" class="com.bp.after.sale.facades.populators.PickupInStoreInputPopulator"/>
+
+    <!--shaun-->
+    <bean id="pickupInStoreInputUpdatePopulator" class="com.bp.after.sale.facades.populators.PickupInStoreInputUpdatePopulator"/>
+
+    <!--shaun-->
+    <bean id="pickupInStoreListOutputTodayPoplator" class="com.bp.after.sale.facades.populators.PickupInStoreListOutputTodayPoplator"/>
+
+    <!--shaun-->
+    <bean id="pickupInStoreListFormOutputPoplator" class="com.bp.after.sale.facades.populators.PickupInStoreListFormOutputPoplator"/>
+
+    <!--shaun 主页-->
+    <bean id="pickupInStoreListOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.after.sale.facades.data.aftersales.PickupInStoreListData" />
+        <property name="populators">
+            <list>
+                <ref bean="pickupInStoreListOutputPoplator" />
+            </list>
+        </property>
+    </bean>
+
+    <!--shaun 今日列表-->
+    <bean id="pickupInStoreListOutputTodayConverter" parent="pickupInStoreListOutputConverter">
+        <property name="targetClass" value="com.bp.after.sale.facades.data.aftersales.PickupInStoreListData" />
+        <property name="populators">
+            <list>
+                <ref bean="pickupInStoreListOutputPoplator" />
+                <ref bean="pickupInStoreListOutputTodayPoplator" />
+            </list>
+        </property>
+    </bean>
+
+    <!--shaun 接车列表-->
+    <bean id="pickupInStoreListFormOutputConverter" parent="pickupInStoreListOutputConverter">
+        <property name="targetClass" value="com.bp.after.sale.facades.data.aftersales.PickupInStoreListData" />
+        <property name="populators">
+            <list>
+                <ref bean="pickupInStoreListOutputPoplator" />
+                <ref bean="pickupInStoreListFormOutputPoplator" />
+            </list>
+        </property>
+    </bean>
+
+    <!--shaun-->
+    <bean id="serviceConsultantConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.after.sale.facades.data.ServiceConsultantData" />
+        <property name="populators">
+            <list>
+                <ref bean="serviceConsultantPupulator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="serviceConsultantPupulator" class="com.bp.after.sale.facades.populators.ServiceConsultantPupulator"/>
+
+    <!--shaun-->
+    <bean id="pickupInStoreListOutputPoplator" class="com.bp.after.sale.facades.populators.PickupInStoreListOutputPoplator"/>
+
+    <!--shaun-->
+    <bean id="pickupInStoreFacade" class="com.bp.after.sale.facades.pickupinstore.impl.PickupInStoreFacadeImpl">
+    </bean>
+
+
+
+    <bean id="serviceOrderEntryParameterConverter" class="com.bp.after.sale.facades.serviceorder.impl.ServiceOrderEntryParameterConverterImpl"/>
+
+    <bean id="serviceOrderBaseConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.after.sale.core.model.ServiceOrderModel" />
+        <property name="populators">
+            <list>
+                <ref bean="serviceOrderPopulator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="serviceOrderPopulator" class="com.bp.after.sale.facades.populators.serviceorder.ServiceOrderPopulator"/>
+
+    <bean id="serviceOrderEntryAddinfoConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.after.sale.core.model.ServiceOrderEntryModel" />
+        <property name="populators">
+            <list>
+                <ref bean="serviceOrderEntryAddinfoPopulator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="serviceOrderEntryAddinfoPopulator" class="com.bp.after.sale.facades.populators.serviceorder.ServiceOrderEntryAddinfoPopulator"/>
+
+    <bean id="serviceOrderBaseOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.after.sale.facades.data.ServiceOrderBaseData" />
+        <property name="populators">
+            <list>
+                <ref bean="serviceOrderBaseOutputPopulator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="serviceOrderBaseOutputPopulator" class="com.bp.after.sale.facades.populators.serviceorder.output.ServiceOrderBaseOutputPopulator">
+    </bean>
+
+    <bean id="serviceOrderEntryOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.after.sale.facades.data.ServiceOrderEntryData" />
+        <property name="populators">
+            <list>
+                <ref bean="serviceOrderEntryOutputPopulator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="serviceOrderEntryOutputPopulator" class="com.bp.after.sale.facades.populators.serviceorder.output.ServiceOrderEntryOutputPopulator"/>
+
+    <bean id="subOrderConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.core.facades.order.SubServiceOrderData" />
+        <property name="populators">
+            <list>
+                <ref bean="subOrderPopulator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="subOrderPopulator" class="com.bp.after.sale.facades.populators.serviceorder.SubOrderPopulator"/>
+
+    <bean id="serviceOrderOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.after.sale.facades.data.ServiceOrderData" />
+        <property name="populators">
+            <list>
+                <ref bean="serviceOrderBaseOutputPopulator"/>
+                <ref bean="serviceOrderOutputPopulator" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="serviceOrderOutputPopulator" class="com.bp.after.sale.facades.populators.serviceorder.output.ServiceOrderOutputPopulator"/>
+
+    <bean id="serviceOrderRelatedRoleOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.after.sale.facades.data.RelatedRoleData" />
+        <property name="populators">
+            <list>
+                <ref bean="serviceOrderRelatedRoleOutputPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="serviceOrderRelatedRoleOutputPopulator" class="com.bp.after.sale.facades.populators.serviceorder.output.ServiceOrderRelatedRoleOutputPopulator"/>
+
+    <bean id="serviceOrderRelatedRoleConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.after.sale.core.model.ServiceOrderRelatedRolesModel" />
+        <property name="populators">
+            <list>
+                <ref bean="serviceOrderRelatedRolePopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="serviceOrderRelatedRolePopulator" class="com.bp.after.sale.facades.populators.serviceorder.ServiceOrderRelatedRolePopulator"/>
+
+    <bean id="serviceOrder2UserFacade" class="com.bp.after.sale.facades.serviceorder.impl.ServiceOrder2UserFacadeImpl"/>
+
+    <bean id="serviceOrderFacade" class="com.bp.after.sale.facades.serviceorder.impl.ServiceOrderFacadeImpl"/>
+
+    <!--shaun-->
+    <bean id="alpsAfterSalesCustomerFacade" class="com.bp.after.sale.facades.facade.impl.AlpsAfterSalesCustomerFacadeImpl">
+        <property name="userService" ref="userService"/>
+        <property name="customerAccountService" ref="customerAccountService"/>
+    </bean>
+
+
+
+
+
+
+    <bean id="incrementOrderConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.after.sale.core.model.IncrementOrderModel" />
+        <property name="populators">
+            <list>
+                <ref bean="incrementOrderPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="incrementOrderPopulator" class="com.bp.after.sale.facades.populators.increment.IncrementOrderPopulator"/>
+
+    <bean id="incrementOrderEntryParameterConverter" class="com.bp.after.sale.facades.incrementOrder.impl.IncrementOrderEntryParameterConverterImpl">
+    </bean>
+
+    <bean id="incrementOrderFacade" class="com.bp.after.sale.facades.incrementOrder.impl.IncrementOrderFacadeImpl"/>
+
+    <bean id="incrementOrderBaseOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.after.sale.facades.IncrementOrderBaseData" />
+        <property name="populators">
+            <list>
+                <ref bean="incrementOrderBaseOutputPopulator"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="incrementOrderBaseOutputPopulator" class="com.bp.after.sale.facades.populators.increment.output.IncrementOrderBaseOutputPopulator"/>
+
+    <bean id="incrementOrderEntryOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.after.sale.facades.data.IncrementOrderEntryData" />
+        <property name="populators">
+            <list>
+                <ref bean="incrementOrderEntryOutputPopulator"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="incrementOrderEntryOutputPopulator" class="com.bp.after.sale.facades.populators.increment.output.IncrementOrderEntryOutputPopulator"/>
+
+    <bean id="incrementOrderOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.after.sale.facades.IncrementOrderData" />
+        <property name="populators">
+            <list>
+                <ref bean="incrementOrderBaseOutputPopulator"/>
+                <ref bean="incrementOrderOutputPopulator"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="incrementOrderOutputPopulator" class="com.bp.after.sale.facades.populators.increment.output.IncrementOrderOutputPopulator"/>
+
+    <bean id="orderRelatedRoleConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.alps.after.sale.core.model.OrderRelatedRolesModel" />
+        <property name="populators">
+            <list>
+                <ref bean="orderRelatedRolePopulator"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="orderRelatedRolePopulator" class="com.bp.after.sale.facades.populators.increment.OrderRelatedRolePopulator"/>
+
+    <bean id="incrementOrder2UserFacade" class="com.bp.after.sale.facades.incrementOrder.impl.IncrementOrder2UserFacadeImpl"/>
+
+    <bean id="orderRelatedRoleOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.after.sale.facades.data.RelatedRoleData" />
+        <property name="populators">
+            <list>
+                <ref bean="orderRelatedRoleOutputPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="orderRelatedRoleOutputPopulator" class="com.bp.after.sale.facades.populators.increment.output.OrderRelatedRoleOutputPopulator"/>
+
+    <bean id="returnOrderEntryParameterConverter" class="com.bp.after.sale.facades.returnorder.impl.ReturnOrderEntryParameterConverterImpl"/>
+
+    <bean id="returnOrderFacade" class="com.bp.after.sale.facades.returnorder.impl.ReturnOrderFacadeImpl"/>
+
+    <bean id="returnOrderBaseOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.after.sale.facades.IncrementOrderBaseData" />
+        <property name="populators">
+            <list>
+                <ref bean="returnOrderBaseOutputPopulator"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="returnOrderBaseOutputPopulator" class="com.bp.after.sale.facades.populators.returnorder.output.ReturnOrderBaseOutputPopulator"/>
+
+    <bean id="returnOrderEntryOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.after.sale.facades.data.IncrementOrderEntryData" />
+        <property name="populators">
+            <list>
+                <ref bean="returnOrderEntryOutputPopulator"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="returnOrderEntryOutputPopulator" class="com.bp.after.sale.facades.populators.returnorder.output.ReturnOrderEntryOutputPopulator"/>
+
+    <bean id="returnOrderOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.after.sale.facades.IncrementOrderData" />
+        <property name="populators">
+            <list>
+                <ref bean="returnOrderBaseOutputConverter"/>
+                <ref bean="returnOrderOutputPopulator"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="returnOrderOutputPopulator" class="com.bp.after.sale.facades.populators.returnorder.output.ReturnOrderOutputPopulator"/>
+
+    <alias name="defaultConsultantConverter" alias="customerConverter"/>
+    <bean id="defaultConsultantConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="de.hybris.platform.commercefacades.user.data.CustomerData"/>
+        <property name="populators">
+            <list>
+                <ref bean="defaultConsultantPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="defaultConsultantPopulator" class="com.bp.after.sale.facades.populators.ConsultantPopulator">
+        <property name="currencyConverter" ref="currencyConverter"/>
+        <property name="languageConverter" ref="languageConverter"/>
+        <property name="customerNameStrategy" ref="customerNameStrategy"/>
+    </bean>
+
+    <bean id="customNavConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.after.sale.facades.data.CustomNavData" />
+        <property name="populators">
+            <list>
+                <ref bean="customNavPopulator"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="customNavPopulator" class="com.bp.after.sale.facades.populators.customnav.CustomNavPopulator"/>
+
+    <bean id="customNavFacadeImpl" class="com.bp.after.sale.facades.customNav.impl.CustomNavFacadeImpl"/>
+
+    <bean id="stockLevelConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.after.sale.facades.data.StockLevelData"/>
+        <property name="populators">
+            <list>
+                <ref bean="stockLevelPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="stockLevelPopulator" class="com.bp.after.sale.facades.populators.stocklevel.StockLevelPopulator" />
+
+    <bean id="stockLevelFacade" class="com.bp.after.sale.facades.stocklevel.impl.StockLevelFacadeImpl"/>
+
+    <bean id="workHoursOutputConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.bp.after.sale.facades.data.WorkhoursData" />
+        <property name="populators">
+            <list>
+                <ref bean="workHoursOutputPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="workHoursOutputPopulator" class="com.bp.after.sale.facades.populators.workhours.WorkHoursOutputPopulator"/>
+
+    <bean id="workHoursConfigurationFacade" class="com.bp.after.sale.facades.facade.impl.WorkHoursConfigurationFacadeImpl"/>
+
+</beans>

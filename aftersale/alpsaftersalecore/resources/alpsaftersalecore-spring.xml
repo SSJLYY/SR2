@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2017 SAP SE or an SAP affiliate company.  All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd">
+	
+    <bean id="alpsaftersalecoreSystemSetup" class="com.bp.alps.after.sale.core.setup.AlpsaftersalecoreSystemSetup">
+        <!-- constructor arg injection example -->
+        <constructor-arg ref="alpsaftersalecoreService"/>
+    </bean>
+
+    <bean id="alpsaftersalecoreService" class="com.bp.alps.after.sale.core.service.impl.DefaultAlpsaftersalecoreService">
+        <!-- setter injection example -->
+        <property name="modelService" ref="modelService"/>
+        <property name="mediaService" ref="mediaService"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <!--shaun-->
+    <bean id="pickupInStoreGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.pickupInStore.code.name}"/>
+        <property name="digits" value="${keygen.pickupInStore.code.digits}"/>
+        <property name="start" value="${keygen.pickupInStore.code.start}"/>
+        <property name="type" value="${keygen.pickupInStore.code.type}"/>
+        <property name="template" value="${keygen.pickupInStore.code.template}"/>
+    </bean>
+
+    <!--shaun-->
+    <bean id="alpsAfterSalePickupInStoreDao" class="com.bp.alps.after.sale.core.dao.impl.AlpsAfterSalePickupInStoreDaoImpl">
+        <constructor-arg value="PickupInStore"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <!--shaun-->
+    <bean id="alpsafterSaleUserListDao" class="com.bp.alps.after.sale.core.dao.impl.AlpsafterSaleUserListDaoImpl">
+        <constructor-arg value="Customer"/>
+        <property name="pagedFlexibleSearchService" ref="pagedFlexibleSearchService"/>
+    </bean>
+
+    <!--shaun-->
+    <bean id="pickupInStoreServices" class="com.bp.alps.after.sale.core.service.impl.PickupInStoreServicesImpl" parent="alpsaftersalecoreService">
+        <property name="keyPrefix" value="${keygen.pickupInStore.code.prefix}"/>
+    </bean>
+
+
+
+    <bean id="serviceOrderService" class="com.bp.alps.after.sale.core.serviceorder.impl.ServiceOrderServiceImpl"/>
+
+    <bean id="serviceOrderCalculationService" class="com.bp.alps.after.sale.core.serviceorder.impl.ServiceOrderCalculationServiceImpl" parent="defaultCalculationService"/>
+
+    <bean id="serviceOrderDao" class="com.bp.alps.after.sale.core.dao.impl.ServiceOrderDaoImpl">
+        <constructor-arg value="ServiceOrder"/>
+        <property name="pagedFlexibleSearchService" ref="pagedFlexibleSearchService"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="serviceOrderRelatedRolesDao" class="com.bp.alps.after.sale.core.dao.impl.ServiceOrderRelatedRolesDaoImpl">
+        <constructor-arg value="ServiceOrderRelatedRoles"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+
+    <!--shaun:conjob-->
+    <bean id="alpsAfterSaleCountNumberOfPickupsJob" class="com.bp.alps.after.sale.core.service.AlpsAfterSaleCountNumberOfPickupsJob" autowire="byName">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+        <property name="modelService" ref="modelService"/>
+        <property name="sessionService" ref="sessionService"/>
+    </bean>
+
+    <bean id="alpsSplitOrderStrategy" class="com.bp.alps.after.sale.core.serviceorder.impl.AlpsSplitOrderStrategyImpl"/>
+
+    <bean id="incrementOrderService" class="com.bp.alps.after.sale.core.increment.impl.IncrementOrderServiceImpl"/>
+
+    <bean id="incrementOrderDao" class="com.bp.alps.after.sale.core.dao.impl.IncrementOrderDaoImpl">
+        <property name="pagedFlexibleSearchService" ref="pagedFlexibleSearchService"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="orderRelatedRolesDao" class="com.bp.alps.after.sale.core.dao.impl.OrderRelatedRolesDaoImpl">
+        <constructor-arg value="OrderRelatedRoles"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="returnOrderService" class="com.bp.alps.after.sale.core.returnorder.impl.ReturnOrderServiceImpl" parent="defaultReturnService"/>
+
+    <bean id="returnOrderDao" class="com.bp.alps.after.sale.core.dao.impl.ReturnOrderDaoImpl">
+        <property name="pagedFlexibleSearchService" ref="pagedFlexibleSearchService"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="customNavDao" class="com.bp.alps.after.sale.core.dao.impl.CustomNavDaoImpl">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="customNavService" class="com.bp.alps.after.sale.core.service.impl.CustomNavServiceImpl"/>
+
+    <bean id="workHoursConfigurationDao" class="com.bp.alps.after.sale.core.dao.impl.WorkHoursConfigurationDaoImpl">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="workHoursConfigurationService" class="com.bp.alps.after.sale.core.service.impl.WorkHoursConfigurationServiceImpl"/>
+</beans>

@@ -1,0 +1,70 @@
+$productCatalog=alpsProductCatalog
+$catalogVersions=catalogVersions(catalog(id),version);
+$facetSearchConfigName=alps-Index
+$facetSearchConfigDescription=Alps Solr Index
+$searchIndexNamePrefix=alps
+$solrIndexedType=alps-ProductType
+$indexBaseSite=alps
+$indexLanguages=zh
+$indexCurrencies=CNY
+
+INSERT_UPDATE SolrIndexedType;identifier[unique=true];type(code);group;groupFieldName;variant;sorts(&sortRefID)
+;$solrIndexedType;Product;true;baseProduct;true;sortRef1,sortRef2
+
+INSERT_UPDATE SolrFacetSearchConfig;name[unique=true];description;indexNamePrefix;languages(isocode);currencies(isocode);solrServerConfig(name);solrSearchConfig(description);solrIndexConfig(name);solrIndexedTypes(identifier);enabledLanguageFallbackMechanism;$catalogVersions
+;$facetSearchConfigName;$facetSearchConfigDescription;$searchIndexNamePrefix;$indexLanguages;$indexCurrencies;Default;Default;Default;$solrIndexedType;true;$productCatalog:Online,$productCatalog:Staged
+
+# Create the queries that will be used to extract data for Solr
+INSERT_UPDATE SolrIndexerQuery;solrIndexedType(identifier)[unique=true];identifier[unique=true];type(code);injectCurrentDate[default=true];injectCurrentTime[default=true];injectLastIndexTime[default=true];query;user(uid)
+;$solrIndexedType;$searchIndexNamePrefix-fullQuery;full;;;false;"
+SELECT {PK} FROM {Product} WHERE ({varianttype} IS NULL OR {varianttype} NOT IN ( {{ SELECT {PK} FROM {varianttype} WHERE {code} = 'VehicleExtVariantProduct'}}) )";anonymous
+
+;$solrIndexedType;$searchIndexNamePrefix-updateQuery;update;;;;"
+SELECT DISTINCT tbl.pk, tbl.code FROM (
+	{{
+		SELECT DISTINCT {p:PK} AS pk, {p:code} AS code, {p:varianttype} AS varianttype
+		FROM {Product AS p LEFT JOIN CustomerReview AS cr ON {cr:product}={p:PK} }
+		WHERE {p:modifiedtime} >= ?lastIndexTime OR {cr:modifiedtime} >= ?lastIndexTime
+	}}
+	UNION
+	{{
+		SELECT {p:PK}  AS pk, {p:code} AS code, {p:varianttype} AS varianttype FROM {Product AS p} WHERE {p:code} IN (
+			{{
+				SELECT DISTINCT {sl:productCode} FROM {StockLevel AS sl} WHERE {sl:modifiedtime} >= ?lastIndexTime
+			}}
+		)
+	}}
+) tbl WHERE (tbl.varianttype IS NULL OR tbl.varianttype NOT IN ( {{ SELECT {PK} FROM {varianttype} WHERE {code} = 'VehicleExtVariantProduct'}}) )
+       ORDER BY tbl.code
+";anonymous
+;$solrIndexedType;$searchIndexNamePrefix-deleteQuery;delete;;;;"SELECT {p:PK} FROM {Product AS p}";anonymous
+
+INSERT_UPDATE SolrSort;&sortRefID;indexedType(identifier)[unique=true];code[unique=true];useBoost
+;sortRef1;$solrIndexedType;name-asc;false
+;sortRef2;$solrIndexedType;name-desc;false
+
+INSERT_UPDATE SolrSortField;sort(indexedType(identifier),code)[unique=true];fieldName[unique=true];ascending[unique=true]
+;$solrIndexedType:name-asc;name;true
+;$solrIndexedType:name-desc;name;false
+
+INSERT_UPDATE SolrIndexedProperty;solrIndexedType(identifier)[unique=true];name[unique=true];type(code);sortableType(code);currency[default=false];localized[default=false];multiValue[default=false];useForSpellchecking[default=false];useForAutocomplete[default=false];fieldValueProvider;valueProviderParameters[map-delimiter=|];ftsPhraseQuery[default=false];ftsPhraseQueryBoost;ftsQuery[default=false];ftsQueryBoost;ftsFuzzyQuery[default=false];ftsFuzzyQueryBoost;ftsWildcardQuery[default=false];ftsWildcardQueryType(code)[default=POSTFIX];ftsWildcardQueryBoost;ftsWildcardQueryMinTermLength
+;$solrIndexedType; itemtype               ;string ;            ;    ;    ;    ;    ;    ;productVariantItemTypeValueProvider  ;									;    ;   ;    ;   ;    ;  ;    ;   ;;
+;$solrIndexedType; variantType               ;string ;            ;    ;    ;    ;    ;    ;                                       ;									;    ;   ;    ;   ;    ;  ;    ;   ;;
+;$solrIndexedType; code                   ;string ;            ;    ;    ;    ;TRUE;TRUE;                                       ;									;    ;   ;TRUE;90 ;    ;  ;TRUE;POSTFIX;45;3
+;$solrIndexedType; name                   ;text   ;sortabletext;    ;TRUE;    ;TRUE;TRUE;                                       ;									;TRUE;100;TRUE;50 ;TRUE;25;    ;   ;  ;
+;$solrIndexedType; description            ;text   ;            ;    ;TRUE;    ;    ;    ;                                       ;									;    ;   ;    ;   ;    ;  ;    ;   ;  ;
+;$solrIndexedType; summary                ;text   ;            ;    ;TRUE;    ;    ;    ;                                       ;									;    ;   ;    ;   ;    ;  ;    ;   ;  ;
+;$solrIndexedType; priceValue             ;double ;            ;TRUE;    ;    ;    ;    ;productPriceValueProvider              ;
+;$solrIndexedType; inStockFlag            ;boolean;            ;    ;    ;    ;    ;    ;productInStockFlagValueProvider        ;
+;$solrIndexedType; baseProduct			  ;string;			   ;    ;;	  ;    ;	;rootProductCodeValueProvider           ;              ;    ;   ;    ;   ;    ;  ;    ;   ;  ;
+;$solrIndexedType; colors               ;string ;            ;    ;   TRUE;    ;   false;false   ;vehicleColorFacetValueProvider                                       ;									;    ;   ;    ;   ;    ;  ;    ;   ;;
+;$solrIndexedType; firstCategoryNameList  ;string ;            ;    ;    ;    ;    ;    ;firstVariantCategoryNameListValueProvider ;              ;    ;   ;    ;   ;    ;  ;    ;   ;  ;
+;$solrIndexedType; url                    ;string ;            ;    ;TRUE;    ;    ;    ;productUrlValueProvider                ;									;    ;   ;    ;   ;    ;  ;    ;   ;  ;
+
+# Category facets
+INSERT_UPDATE SolrIndexedProperty;solrIndexedType(identifier)[unique=true];name[unique=true];type(code);multiValue[default=true];facet[default=true];facetType(code);facetSort(code);priority;visible;categoryField[default=true];fieldValueProvider;facetDisplayNameProvider;topValuesProvider
+;$solrIndexedType;allCategories     ;string;;;Refine;Alpha; 5000;true;;categoryCodeValueProvider;categoryFacetDisplayNameProvider;defaultTopValuesProvider
+;$solrIndexedType; category         ;string;;;Refine;Alpha; 5000;true;;alpsSaleCategoryCodeValueProvider;categoryFacetDisplayNameProvider;defaultTopValuesProvider
+
+INSERT_UPDATE SolrIndexedProperty;solrIndexedType(identifier)[unique=true];name[unique=true];type(code);sortableType(code);currency[default=false];localized[default=false];multiValue[default=false];facet[default=true];facetType(code);facetSort(code);priority;visible;useForSpellchecking[default=false];useForAutocomplete[default=false];fieldValueProvider;facetDisplayNameProvider;customFacetSortProvider;topValuesProvider;rangeSets(name)
+;$solrIndexedType; size             ;string ; ;     ;true;    ; ;MultiSelectOr ;Custom; 2000;true;    ;    ;optionalModelPropertyFieldValueProvider;

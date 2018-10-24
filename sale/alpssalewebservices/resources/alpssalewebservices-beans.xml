@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2017 SAP SE or an SAP affiliate company.  All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+<!--
+	ATTENTION: This is just an example file. You have to edit it according to your needs.
+-->
+
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="beans.xsd">
+	
+	<!-- DATA -->
+	<bean class="com.bp.webservices.data.UserDataList">
+		<property name="users" type="java.util.List&lt;com.bp.webservices.data.UserData>"/>
+	</bean>
+
+	<bean class="com.bp.webservices.data.UserData" >
+		<property name="defaultBillingAddress" type="com.bp.webservices.data.AddressData"/>
+		<property name="defaultShippingAddress" type="com.bp.webservices.data.AddressData"/>
+		<property name="addresses" type="java.util.List&lt;com.bp.webservices.data.AddressData>"/>
+		<property name="description" type="String"/>
+		<property name="firstName" type="String"/>
+		<property name="lastName" type="String"/>
+	</bean>
+	
+	<bean class="com.bp.webservices.data.AddressDataList">
+		<property name="addresses" type="java.util.List&lt;com.bp.webservices.data.AddressData>"/>
+	</bean>
+	
+	<bean class="com.bp.webservices.data.AddressData">
+		<property name="streetname" type="String"/>
+		<property name="streetnumber" type="String"/>
+		<property name="town" type="String"/>
+		<property name="shippingAddress" type="boolean"/>
+		<property name="billingAddress" type="boolean"/>
+		<property name="defaultAddress" type="boolean"/>
+		<property name="formattedAddress" type="String"/>
+	</bean>
+
+	<!-- DTO -->
+	<bean class="com.bp.webservices.dto.SampleWsDTO">
+		<property name="value" type="String"/>
+	</bean>
+
+	<bean class="com.bp.webservices.dto.UsersListWsDTO">
+		<property name="users" type="java.util.List&lt;com.bp.webservices.dto.UserWsDTO>"/>
+	</bean>
+
+	<bean class="com.bp.webservices.dto.UserWsDTO">
+		<property name="addresses" type="java.util.List&lt;com.bp.webservices.dto.AddressWsDTO>"/>
+		<property name="firstName" type="String"/>
+		<property name="lastName" type="String"/>
+		<property name="info" type="String" />
+		<property name="billingAddress" type="com.bp.webservices.dto.AddressWsDTO"/>
+		<property name="shippingAddress" type="com.bp.webservices.dto.AddressWsDTO"/>
+	</bean>
+	
+	<bean class="com.bp.webservices.dto.AddressListWsDTO">
+		<property name="addresses" type="java.util.List&lt;com.bp.webservices.dto.AddressWsDTO>"/>
+	</bean>
+	
+	<bean class="com.bp.webservices.dto.AddressWsDTO">
+		<property name="street" type="String"/>
+		<property name="town" type="String"/>
+		<property name="streetNumber" type="String"/>
+	</bean>
+	
+	<bean class="com.bp.webservices.dto.TestMapWsDTO">
+		<property name="stringMap" type="java.util.Map&lt;String,String>"/>
+		<property name="integerMap" type="java.util.Map&lt;String,Integer>"/>
+	</bean>
+
+</beans>

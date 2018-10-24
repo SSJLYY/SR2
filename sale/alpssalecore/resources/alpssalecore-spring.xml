@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2017 SAP SE or an SAP affiliate company.  All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean id="alpssalecoreSystemSetup" class="com.bp.alps.core.setup.AlpssalecoreSystemSetup">
+        <!-- constructor arg injection example -->
+        <constructor-arg ref="alpssalecoreService"/>
+    </bean>
+
+    <bean id="alpssalecoreService" class="com.bp.alps.core.service.impl.DefaultAlpssalecoreService">
+        <!-- setter injection example -->
+        <property name="modelService" ref="modelService"/>
+        <property name="mediaService" ref="mediaService"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="customerStreamDao" class="com.bp.alps.core.dao.impl.CustomerStreamDaoImpl">
+        <constructor-arg value="CustomerStream"/>
+        <property name="pagedFlexibleSearchService" ref="pagedFlexibleSearchService"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="customerFlowCodeGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.customer.flow.code.name}"/>
+        <property name="digits" value="${keygen.customer.flow.code.digits}"/>
+        <property name="start" value="${keygen.customer.flow.code.start}"/>
+        <property name="type" value="${keygen.customer.flow.code.type}"/>
+        <property name="template" value="${keygen.customer.flow.code.template}"/>
+    </bean>
+
+    <bean id="customerSteamService" class="com.bp.alps.core.service.impl.CustomerStreamServiceImpl">
+        <property name="keyPrefix" value="${keygen.customer.flow.code.prefix}"/>
+    </bean>
+
+    <bean id="opportunityDao" class="com.bp.alps.core.dao.impl.OpportunityDaoImpl">
+        <constructor-arg value="Opportunity"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="opportunityServices" class="com.bp.alps.core.service.impl.OpportunityServicesImpl" parent="alpssalecoreService">
+        <property name="keyPrefix" value="${keygen.opportunity.code.prefix}"/>
+    </bean>
+
+    <bean id="opportunityCodeGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.opportunity.code.name}"/>
+        <property name="digits" value="${keygen.opportunity.code.digits}"/>
+        <property name="start" value="${keygen.opportunity.code.start}"/>
+        <property name="type" value="${keygen.opportunity.code.type}"/>
+        <property name="template" value="${keygen.opportunity.code.template}"/>
+    </bean>
+
+    <bean id="followCodeGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.follow.code.name}"/>
+        <property name="digits" value="${keygen.follow.code.digits}"/>
+        <property name="start" value="${keygen.follow.code.start}"/>
+        <property name="type" value="${keygen.follow.code.type}"/>
+        <property name="template" value="${keygen.follow.code.template}"/>
+    </bean>
+
+    <bean id="marketActivityDao" class="com.bp.alps.core.dao.impl.MarketActivityDaoImpl">
+        <constructor-arg value="MarketActivity"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="followOpportunityDao" class="com.bp.alps.core.dao.impl.FollowOpportunityDaoImpl">
+        <constructor-arg value="FollowOpportunity"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="followOpportunityService" class="com.bp.alps.core.service.impl.FollowOpportunityServiceImpl"/>
+
+    <bean id="storeVoucherDao" class="com.bp.alps.core.dao.impl.StoreVoucherDaoImpl">
+        <constructor-arg value="StoreVoucherDescription"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="quotationDao" class="com.bp.alps.core.dao.impl.QuotationDaoImpl">
+        <constructor-arg value="QuotationInfo"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="opportunityLevelDao" class="com.bp.alps.core.dao.impl.OpportunityLevelDaoImpl">
+        <constructor-arg value="OpportunityLevel"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="oppoStatusDao" class="com.bp.alps.core.dao.impl.OppoStatusDaoImpl">
+        <constructor-arg value="OppoStatus"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="storeVoucherService" class="com.bp.alps.core.service.impl.StoreVoucherServiceImpl"/>
+
+    <bean id="quotationFactory" class="com.bp.alps.core.quotation.impl.QuotationFactoryImpl" parent="cartFactory">
+        <property name="keyPrefix" value="${keygen.quotation.code.prefix}"/>
+    </bean>
+
+    <bean id="quotationService" class="com.bp.alps.core.quotation.impl.QuotationServiceImpl" parent="alpssalecoreService"/>
+
+    <bean id="platFormDao" class="com.bp.alps.core.dao.impl.PlatFormDaoImpl">
+        <constructor-arg value="Platform"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="platFormService" class="com.bp.alps.core.service.impl.PlatFormServiceImpl"/>
+
+    <!--shaun-->
+    <bean id="alpsPasswordResetService" class="com.bp.alps.core.service.impl.AlpsPasswordResetServiceImpl"/>
+    <!--shaun-->
+    <bean id="alpsTokenEndpointService" class="com.bp.alps.core.service.impl.AlpsTokenEndpointServiceImpl" parent="defaultOauthTokenServices"/>
+    <!--shaun-->
+    <bean id="alpsPasswordForgetService" class="com.bp.alps.core.service.impl.AlpsPasswordForgetServiceImpl" parent="defaultOauthTokenServices"/>
+    <!--shaun-->
+    <bean id="clientDetailsService" class="de.hybris.platform.webservicescommons.oauth2.client.impl.DefaultClientDetailsService" >
+        <property name="clientDetailsDao" ref="oauthClientDetailsDao" />
+    </bean>
+
+    <bean id="alpsOrderDao" class="com.bp.alps.core.dao.impl.AlpsOrderDaoImpl">
+        <constructor-arg value="VehicleOrder"/>
+        <property name="pagedFlexibleSearchService" ref="pagedFlexibleSearchService"/>
+    </bean>
+
+    <bean id="alpsOrderService" class="com.bp.alps.core.order.impl.OrderServiceImpl" parent="alpssalecoreService"/>
+
+    <bean id="orderFactory" class="com.bp.alps.core.order.impl.OrderFactoryImpl" parent="cartFactory">
+        <property name="keyGenerator" ref="orderCodeGenerator"/>
+        <property name="modelService" ref="modelService"/>
+        <property name="userService" ref="userService"/>
+        <property name="commonI18NService" ref="commonI18NService"/>
+    </bean>
+
+    <alias name="quotationCalculationService" alias="calculationService"/>
+    <bean id="quotationCalculationService" class="com.bp.alps.core.abstractOrder.AbstractOrderCalculationService" parent="defaultCalculationService"/>
+</beans>

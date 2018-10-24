@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2017 SAP SE or an SAP affiliate company.  All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+        <!--<aop:config proxy-target-class="true">
+            <aop:pointcut id="regionCacheGetWithLoader" expression="execution(public * de.hybris.platform.regioncache.region.impl.EHCacheRegion.getWithLoader(..))" />
+            <aop:pointcut id="regionCacheInvalidateKey" expression="execution(public * de.hybris.platform.regioncache.region.impl.EHCacheRegion.invalidate(..))" />
+            <aop:aspect id="alpsEHCacheRegionListen" ref="alpsEHCacheRegion">
+                <aop:around method="getWithLoaderListen" pointcut-ref="regionCacheGetWithLoader" />
+            </aop:aspect>
+            <aop:aspect id="regionCacheInvalidateKeyListen" ref="alpsEHCacheRegion">
+                <aop:around method="invalidateKeyListen" pointcut-ref="regionCacheInvalidateKey" />
+            </aop:aspect>
+        </aop:config>
+
+        <bean id="alpsEHCacheRegion" class="com.bp.alps.core.regioncache.region.impl.AlpsEHCacheRegion"/>-->
+</beans>

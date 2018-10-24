@@ -1,0 +1,449 @@
+# -----------------------------------------------------------------------
+# [y] hybris Platform
+#
+# Copyright (c) 2017 SAP SE or an SAP affiliate company.  All rights reserved.
+#
+# This software is the confidential and proprietary information of SAP
+# ("Confidential Information"). You shall not disclose such Confidential
+# Information and shall use it only in accordance with the terms of the
+# license agreement you entered into with SAP.
+# -----------------------------------------------------------------------
+#
+# Import the Responsive CMS content for the Electronics site
+#
+# -----------------------------------------------------------------------
+# [y] hybris Platform
+#
+# Copyright (c) 2017 SAP SE or an SAP affiliate company.  All rights reserved.
+#
+# This software is the confidential and proprietary information of SAP
+# ("Confidential Information"). You shall not disclose such Confidential
+# Information and shall use it only in accordance with the terms of the
+# license agreement you entered into with SAP.
+# -----------------------------------------------------------------------
+#
+# Import the CMS content for the Electronics site
+#
+$contentCatalog=alpsAfterSaleContentCatalog
+$contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Staged])[default=$contentCatalog:Staged]
+
+# Language
+$lang=zh
+
+# Import modulegen config properties into impex macros
+UPDATE GenericItem[processor=de.hybris.platform.commerceservices.impex.impl.ConfigPropertyImportProcessor];pk[unique=true]
+$jarResourceCms=$config-jarResourceCmsValue
+
+
+
+# Create PageTemplates
+# These define the layout for pages
+# "FrontendTemplateName" is used to define the JSP that should be used to render the page for pages with multiple possible layouts.
+# "RestrictedPageTypes" is used to restrict templates to page types
+INSERT_UPDATE PageTemplate;$contentCV[unique=true];uid[unique=true];name;frontendTemplateName;restrictedPageTypes(code);active[default=true]
+;;AfterSaleLandingPage1Template;Landing Page 1 Template;layout/landingLayout1Page;CategoryPage,ContentPage
+;;AfterSaleLandingPage2Template;Landing Page 2 Template;layout/landingLayout2Page;CategoryPage,ContentPage
+;;AfterSaleContentPage1Template;Content Page 1 Template;layout/contentLayout1Page;ContentPage
+;;AfterSaleLoginPageTemplate;Login Page Template;;ContentPage;false;
+;;AfterSaleRegisterPageTemplate;Register Page Template;;ContentPage;false;
+;;AfterSaleErrorPageTemplate;Error Page Template;;ContentPage;false;
+;;ServiceFormTemplate;service form Template;service/form;ContentPage
+#shaun
+;;CreateFormTemplate;create Form Template;pickupinstore/createForm;ContentPage
+;;DetailFormTemplate;Detail Form Template;pickupinstore/detailForm;ContentPage
+;;DeskTopFormTemplate;Desk Top Form Template;service/deskTop;ContentPage
+;;ShowFormTemplate;Show Form Template;pickupinstore/showForm;ContentPage
+;;BookTodayFormTemplate;Book Today Form Template;pickupinstore/bookTodayForm;ContentPage
+#shaun
+;;ComponentsListTemplate;components List Template;configuration/componentsList;ContentPage
+;;MaintenanceProjectListTemplate;maintenance Project List Template;configuration/maintenanceProjectList;ContentPage
+;;ServicePackageListTemplate;service Package List Template;configuration/servicePackageList;ContentPage
+;;AccountPageTemplate;Account Page Template;account/accountLayoutPage;ContentPage
+
+
+# Add Velocity templates that are in the CMS Cockpit. These give a better layout for editing pages
+# The FileLoaderValueTranslator loads a File into a String property. The templates could also be inserted in-line in this file.
+UPDATE PageTemplate;$contentCV[unique=true];uid[unique=true];velocityTemplate[translator=de.hybris.platform.commerceservices.impex.impl.FileLoaderValueTranslator]
+;;AfterSaleLandingPage1Template      ;$jarResourceCms/structure-view/structure_landingPage1Template.vm
+;;AfterSaleLandingPage2Template      ;$jarResourceCms/structure-view/structure_landingPage2Template.vm
+;;AfterSaleContentPage1Template      ;$jarResourceCms/structure-view/structure_contentPage1Template.vm
+;;AfterSaleLoginPageTemplate         ;$jarResourceCms/structure-view/structure_loginPageTemplate.vm
+;;AccountPageTemplate 		;$jarResourceCms/structure-view/structure_accountPageTemplate.vm
+
+# Create Content Slots
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active
+;;SiteLogoSlot;Default Site Logo Slot;true
+;;HomepageNavLinkSlot;Default Homepage Link;true
+;;NavigationBarSlot;Navigation Bar;true
+;;TabsSlot;Tabs;true
+;;WideContentSlot;Wide Content;true
+;;TopContentSlot;Top Content;true
+;;MiddleContentSlot;Middle Content;true
+;;BottomContentSlot;Bottom Content;true
+;;SideContentSlot;Side Content;true
+;;FeatureContentSlot;Feature Content;true
+;;FooterSlot;Footer;true
+;;HeaderLinksSlot;Header links;true
+;;SearchBoxSlot;Search Box;true
+;;VariantSelectorSlot;Variant Selector;true
+;;AddToCartSlot;Add To Cart;true
+;;UpSellingSlot;Up Selling;true
+;;CrossSellingSlot;Cross Selling;true
+;;TopHeaderSlot;Top Header;true
+;;BottomHeaderSlot;Bottom Header;true
+;;ProductLeftRefinements;Refinements;true
+;;ProductListSlot;Product List;true
+;;ProductGridSlot;Product Grid;true
+;;SearchResultsListSlot;Search Result List;true
+;;SearchResultsGridSlot;Search Result Grid;true
+;;LeftContentSlot-logintemplate;Left Content Slot;true
+;;RightContentSlot-logintemplate;Right Content Slot;true
+;;LeftContentSlot-registertemplate;;true
+;;RightContentSlot-registertemplate;;true
+;;LeftContentSlot;Left Content Slot;true
+;;RightContentSlot;Right Content Slot;true
+;;CenterContentSlot;Center Content Slot;true
+;;CenterLeftContentSlot;Center Left Content Slot;true
+;;CenterRightContentSlot;Center Right Content Slot;true
+;;EmptyCartMiddleContent;Empty Cart Middle Content;true
+;;PlaceholderContentSlot;Placeholder for Addon tag files;true
+;;Section1;top content solt;true
+;;Section2;;true
+
+
+INSERT_UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];name;masterTemplate(uid,$contentCV);label;defaultPage[default='false'];approvalStatus(code)[default='approved'];homepage[default='false']
+;;aftersalehomepage;Homepage;AfterSaleLandingPage2Template;homepage;false;;false
+;;aftersaleserverpage;Serverpage;AfterSaleLandingPage2Template;serverpage;false;;false
+;;login;Login Page;AfterSaleLoginPageTemplate;login;false;;false
+;;register;register;AfterSaleRegisterPageTemplate;register;;;
+;;aftersalenotFound;Not Found Page;AfterSaleErrorPageTemplate;notFound;false;;false
+;;serviceForm;serviceForm;ServiceFormTemplate;homepage;false;;false
+;;vehicleForm;vehicleForm;AfterSaleLandingPage2Template;vehicleForm;false;;false
+;;vehicleList;vehicleForm;AfterSaleLandingPage2Template;vehicleList;false;;false
+;;vehicleDetail;vehicleForm;AfterSaleLandingPage2Template;vehicleDetail;false;;false
+;;customerForm;customerForm;AfterSaleLandingPage2Template;customerForm;false;;false
+;;serviceOrderForm;serviceOrderForm;AfterSaleLandingPage2Template;serviceOrderForm;
+;;serviceOrderList;serviceOrderList;AfterSaleLandingPage2Template;serviceOrderList;
+;;serviceOrderDetail;serviceOrderDetail;AfterSaleLandingPage2Template;serviceOrderDetail;
+#shaun
+;;createForm;createForm;CreateFormTemplate;serverpage
+;;detailForm;detailForm;DetailFormTemplate;serverpage
+;;deskTopForm;deskTopForm;DeskTopFormTemplate;homepage;true;;true
+;;showForm;showForm;ShowFormTemplate;serverpage
+;;bookTodayForm;bookTodayForm;BookTodayFormTemplate;serverpage
+;;customerList;customerList;AfterSaleLandingPage2Template;customerList
+;;resetPasswordForm;resetPasswordForm;ServiceFormTemplate;homepage;false;;false
+;;customerDetail;customerDetail;AfterSaleLandingPage2Template;customerDetail
+#shaun
+;;componentsList;componentsList;ComponentsListTemplate;serverpage
+;;maintenanceProjectList;maintenanceProjectList;MaintenanceProjectListTemplate;serverpage
+;;servicePackageList;servicePackageList;ServicePackageListTemplate;serverpage
+
+
+;;incrementOrderForm;incrementOrderForm;AfterSaleLandingPage2Template;incrementOrderForm
+;;incrementOrderList;incrementOrderList;AfterSaleLandingPage2Template;incrementOrderList
+;;incrementOrderDetail;incrementOrderDetail;AfterSaleLandingPage2Template;incrementOrderDetail
+;;returnOrderList;returnOrderList;AfterSaleLandingPage2Template;returnOrderList
+;;returnOrderDetail;returnOrderDetail;AfterSaleLandingPage2Template;returnOrderDetail
+;;returnOrderPrint;returnOrderPrint;AfterSaleLandingPage2Template;returnOrderPrint
+;;account;account;AccountPageTemplate;account
+;;update-profile;update-profile;AccountPageTemplate;update-profile
+
+# Preview Image for use in the CMS Cockpit for special ContentPages
+INSERT_UPDATE Media;$contentCV[unique=true];code[unique=true];mime;realfilename;@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator][forceWrite=true]
+;;ContentPageModel__function_preview;text/gif;ContentPageModel__function_preview.gif;$jarResourceCms/preview-images/ContentPageModel__function_preview.gif
+
+
+# Content Pages
+UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];title[lang=$lang]
+;;aftersalehomepage;"主页"
+;;login;"登录"
+;;register;"注册"
+;;serviceForm;"服务单"
+;;serviceOrderForm;"服务单开单"
+;;serviceOrderList;"服务单"
+;;serviceOrderDetail;"服务单"
+#shaun
+;;createForm;"创建服务单"
+;;detailForm;"服务单详情"
+;;deskTopForm;"我的桌面"
+;;showForm;"接车列表"
+;;bookTodayForm;"今日预约看板"
+#shaun
+;;componentsList;"零部件查询"
+;;maintenanceProjectList;"维修项目"
+;;servicePackageList;"服务包"
+
+;;vehicleList;"车辆列表"
+;;vehicleForm;"创建车辆"
+;;vehicleDetail;"车辆详情"
+;;customerForm;"创建客户"
+;;customerList;"客户列表"
+;;customerDetail;"客户"
+;;resetPasswordForm;"忘记密码"
+;;incrementOrderList;"增值订单列表"
+;;incrementOrderForm;"创建增值订单"
+;;incrementOrderDetail;"订单详情"
+;;returnOrderList;"退货单列表"
+;;returnOrderDetail;"退货单详情"
+;;account;"我的账户"
+;;returnOrderPrint;"打印退货单"
+
+INSERT_UPDATE ContentSlotForTemplate;$contentCV[unique=true];uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='AccountPageTemplate'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+;;SiteLogo-AccountPage;SiteLogo;;SiteLogoSlot;true
+;;HomepageLink-AccountPage;HomepageNavLink;;HomepageNavLinkSlot;true
+;;NavigationBar-AccountPage;NavigationBar;;NavigationBarSlot;true
+;;Footer-AccountPage;Footer;;FooterSlot;true
+;;HeaderLinks-AccountPage;HeaderLinks;;HeaderLinksSlot;true
+;;SearchBox-AccountPage;SearchBox;;SearchBoxSlot;true
+;;TopHeaderSlot-AccountPage;TopHeaderSlot;;TopHeaderSlot;true
+;;BottomHeaderSlot-AccountPage;BottomHeaderSlot;;BottomHeaderSlot;true
+;;PlaceholderContentSlot-AccountPage;PlaceholderContentSlot;;PlaceholderContentSlot;true
+;;AfterSale-ContentTopSlot-AccountPage;Section1;;Section1;true
+
+INSERT_UPDATE ContentSlotForTemplate;$contentCV[unique=true];uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='AfterSaleLandingPage1Template'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+;;AfterSale-SiteLogo-LandingPage1;SiteLogo;;SiteLogoSlot;true
+;;AfterSale-HomepageLink-LandingPage1;HomepageNavLink;;HomepageNavLinkSlot;true
+;;AfterSale-NavigationBar-LandingPage1;NavigationBar;;NavigationBarSlot;true
+;;AfterSale-Footer-LandingPage1;Footer;;FooterSlot;true
+;;AfterSale-HeaderLinks-LandingPage1;HeaderLinks;;HeaderLinksSlot;true
+;;AfterSale-SearchBox-LandingPage1;SearchBox;;SearchBoxSlot;true
+;;AfterSale-TopHeaderSlot-LandingPage1;TopHeaderSlot;;TopHeaderSlot;true
+;;AfterSale-BottomHeaderSlot-LandingPage1;BottomHeaderSlot;;BottomHeaderSlot;true
+;;AfterSale-PlaceholderContentSlot-LandingPage1;PlaceholderContentSlot;;PlaceholderContentSlot;true
+;;AfterSale-ContentTopSlot-LandingPage1;Section1;;Section1;true
+
+
+INSERT_UPDATE ContentSlotForTemplate;$contentCV[unique=true];uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='AfterSaleLandingPage2Template'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+;;AfterSale-SiteLogo-LandingPage2;SiteLogo;;SiteLogoSlot;true
+;;AfterSale-HomepageLink-LandingPage2;HomepageNavLink;;HomepageNavLinkSlot;true
+;;AfterSale-NavigationBar-LandingPage2;NavigationBar;;NavigationBarSlot;true
+;;AfterSale-Footer-LandingPage2;Footer;;FooterSlot;true
+;;AfterSale-HeaderLinks-LandingPage2;HeaderLinks;;HeaderLinksSlot;true
+;;AfterSale-SearchBox-LandingPage2;SearchBox;;SearchBoxSlot;true
+;;AfterSale-TopHeaderSlot-LandingPage2;TopHeaderSlot;;TopHeaderSlot;true
+;;AfterSale-BottomHeaderSlot-LandingPage2;BottomHeaderSlot;;BottomHeaderSlot;true
+;;AfterSale-PlaceholderContentSlot-LandingPage2;PlaceholderContentSlot;;PlaceholderContentSlot;true
+;;AfterSale-ContentTopSlot-LandingPage2;Section1;;Section1;true
+
+
+INSERT_UPDATE ContentSlotForTemplate;$contentCV[unique=true];uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='AfterSaleContentPage1Template'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+;;AfterSale-SiteLogo-ContentPage1;SiteLogo;;SiteLogoSlot;true
+;;AfterSale-HomepageLink-ContentPage1;HomepageNavLink;;HomepageNavLinkSlot;true
+;;AfterSale-NavigationBar-ContentPage1;NavigationBar;;NavigationBarSlot;true
+;;AfterSale-Footer-ContentPage1;Footer;;FooterSlot;true
+;;AfterSale-HeaderLinks-ContentPage1;HeaderLinks;;HeaderLinksSlot;true
+;;AfterSale-SearchBox-ContentPage1;SearchBox;;SearchBoxSlot;true
+;;AfterSale-TopHeaderSlot-ContentPage1;TopHeaderSlot;;TopHeaderSlot;true
+;;AfterSale-BottomHeaderSlot-ContentPage1;BottomHeaderSlot;;BottomHeaderSlot;true
+;;AfterSale-PlaceholderContentSlot-ContentPage1;PlaceholderContentSlot;;PlaceholderContentSlot;true
+;;AfterSale-ContentTopSlot-ContentPage1;Section1;;Section1;true
+
+
+INSERT_UPDATE ContentSlotForTemplate;$contentCV[unique=true];uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='AfterSaleLoginPageTemplate'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+;;AfterSale-SiteLogo-LoginPage;SiteLogo;;SiteLogoSlot;true
+;;AfterSale-Footer-LoginPage;Footer;;FooterSlot;true
+;;AfterSale-BottomHeaderSlot-LoginPage;BottomHeaderSlot;;BottomHeaderSlot;true
+;;AfterSale-LeftContentSlot-LoginPage;LeftContentSlot;;LeftContentSlot-logintemplate;true
+;;AfterSale-RightContentSlot-LoginPage;RightContentSlot;;RightContentSlot-logintemplate;true
+;;AfterSale-PlaceholderContentSlot-LoginPage;PlaceholderContentSlot;;PlaceholderContentSlot;true
+
+INSERT_UPDATE ContentSlotForTemplate;$contentCV[unique=true];uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='AfterSaleRegisterPageTemplate'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+;;AfterSale-SiteLogo-RegisterPage;SiteLogo;;SiteLogoSlot;true
+;;AfterSale-Footer-RegisterPage;Footer;;FooterSlot;true
+;;AfterSale-BottomHeaderSlot-RegisterPage;BottomHeaderSlot;;BottomHeaderSlot;true
+;;AfterSale-LeftContentSlot-RegisterPage;LeftContentSlot;;LeftContentSlot-registertemplate;true
+;;AfterSale-RightContentSlot-RegisterPage;RightContentSlot;;RightContentSlot-registertemplate;true
+;;AfterSale-PlaceholderContentSlot-RegisterPage;PlaceholderContentSlot;;PlaceholderContentSlot;true
+
+
+
+INSERT_UPDATE ContentSlotForTemplate;$contentCV[unique=true];uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='AfterSaleErrorPageTemplate'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+;;AfterSale-SiteLogo-ErrorPage;SiteLogo;;SiteLogoSlot;true
+;;AfterSale-HomepageLink-ErrorPage;HomepageNavLink;;HomepageNavLinkSlot;true
+;;AfterSale-NavigationBar-ErrorPage;NavigationBar;;NavigationBarSlot;true
+;;AfterSale-Footer-ErrorPage;Footer;;FooterSlot;true
+;;AfterSale-HeaderLinks-ErrorPage;HeaderLinks;;HeaderLinksSlot;true
+;;AfterSale-SearchBox-ErrorPage;SearchBox;;SearchBoxSlot;true
+;;AfterSale-TopHeaderSlot-ErrorPage;TopHeaderSlot;;TopHeaderSlot;true
+;;AfterSale-BottomHeaderSlot-ErrorPage;BottomHeaderSlot;;BottomHeaderSlot;true
+;;AfterSale-PlaceholderContentSlot-ErrorPage;PlaceholderContentSlot;;PlaceholderContentSlot;true
+
+
+INSERT_UPDATE ContentSlotForTemplate;$contentCV[unique=true];uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='ServiceFormTemplate'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+;;AfterSale-SiteLogo-Service;SiteLogo;;SiteLogoSlot;true
+;;AfterSale-HomepageLink-Service;HomepageNavLink;;HomepageNavLinkSlot;true
+;;AfterSale-NavigationBar-Service;NavigationBar;;NavigationBarSlot;true
+;;AfterSale-Footer-Service;Footer;;FooterSlot;true
+;;AfterSale-HeaderLinks-Service;HeaderLinks;;HeaderLinksSlot;true
+;;AfterSale-SearchBox-Service;SearchBox;;SearchBoxSlot;true
+;;AfterSale-TopHeaderSlot-Service;TopHeaderSlot;;TopHeaderSlot;true
+;;AfterSale-BottomHeaderSlot-Service;BottomHeaderSlot;;BottomHeaderSlot;true
+;;AfterSale-PlaceholderContentSlot-Service;PlaceholderContentSlot;;PlaceholderContentSlot;true
+;;AfterSale-ContentTopSlot-Service;Section1;;Section1;true
+
+#shaun 配件
+INSERT_UPDATE ContentSlotForTemplate;$contentCV[unique=true];uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='ComponentsListTemplate'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+;;AfterSale-SiteLogo-Components;SiteLogo;;SiteLogoSlot;true
+;;AfterSale-HomepageLink-Components;HomepageNavLink;;HomepageNavLinkSlot;true
+;;AfterSale-NavigationBar-Components;NavigationBar;;NavigationBarSlot;true
+;;AfterSale-Footer-Components;Footer;;FooterSlot;true
+;;AfterSale-HeaderLinks-Components;HeaderLinks;;HeaderLinksSlot;true
+;;AfterSale-SearchBox-Components;SearchBox;;SearchBoxSlot;true
+;;AfterSale-TopHeaderSlot-Components;TopHeaderSlot;;TopHeaderSlot;true
+;;AfterSale-BottomHeaderSlot-Components;BottomHeaderSlot;;BottomHeaderSlot;true
+;;AfterSale-PlaceholderContentSlot-Components;PlaceholderContentSlot;;PlaceholderContentSlot;true
+;;AfterSale-ContentTopSlot-Components;Section1;;Section1;true
+
+#shaun 维修项目
+INSERT_UPDATE ContentSlotForTemplate;$contentCV[unique=true];uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='MaintenanceProjectListTemplate'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+;;AfterSale-SiteLogo-MaintenanceProject;SiteLogo;;SiteLogoSlot;true
+;;AfterSale-HomepageLink-MaintenanceProject;HomepageNavLink;;HomepageNavLinkSlot;true
+;;AfterSale-NavigationBar-MaintenanceProject;NavigationBar;;NavigationBarSlot;true
+;;AfterSale-Footer-MaintenanceProject;Footer;;FooterSlot;true
+;;AfterSale-HeaderLinks-MaintenanceProject;HeaderLinks;;HeaderLinksSlot;true
+;;AfterSale-SearchBox-MaintenanceProject;SearchBox;;SearchBoxSlot;true
+;;AfterSale-TopHeaderSlot-MaintenanceProject;TopHeaderSlot;;TopHeaderSlot;true
+;;AfterSale-BottomHeaderSlot-MaintenanceProject;BottomHeaderSlot;;BottomHeaderSlot;true
+;;AfterSale-PlaceholderContentSlot-MaintenanceProject;PlaceholderContentSlot;;PlaceholderContentSlot;true
+;;AfterSale-ContentTopSlot-MaintenanceProject;Section1;;Section1;true
+
+#shaun 服务包
+INSERT_UPDATE ContentSlotForTemplate;$contentCV[unique=true];uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='ServicePackageListTemplate'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+;;AfterSale-SiteLogo-ServicePackage;SiteLogo;;SiteLogoSlot;true
+;;AfterSale-HomepageLink-ServicePackage;HomepageNavLink;;HomepageNavLinkSlot;true
+;;AfterSale-NavigationBar-ServicePackage;NavigationBar;;NavigationBarSlot;true
+;;AfterSale-Footer-ServicePackage;Footer;;FooterSlot;true
+;;AfterSale-HeaderLinks-ServicePackage;HeaderLinks;;HeaderLinksSlot;true
+;;AfterSale-SearchBox-ServicePackage;SearchBox;;SearchBoxSlot;true
+;;AfterSale-TopHeaderSlot-ServicePackage;TopHeaderSlot;;TopHeaderSlot;true
+;;AfterSale-BottomHeaderSlot-ServicePackage;BottomHeaderSlot;;BottomHeaderSlot;true
+;;AfterSale-PlaceholderContentSlot-ServicePackage;PlaceholderContentSlot;;PlaceholderContentSlot;true
+;;AfterSale-ContentTopSlot-ServicePackage;Section1;;Section1;true
+
+#shaun:Create
+INSERT_UPDATE ContentSlotForTemplate;$contentCV[unique=true];uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='CreateFormTemplate'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+;;AfterSale-SiteLogo-Create;SiteLogo;;SiteLogoSlot;true
+;;AfterSale-HomepageLink-Create;HomepageNavLink;;HomepageNavLinkSlot;true
+;;AfterSale-NavigationBar-Create;NavigationBar;;NavigationBarSlot;true
+;;AfterSale-Footer-Create;Footer;;FooterSlot;true
+;;AfterSale-HeaderLinks-Create;HeaderLinks;;HeaderLinksSlot;true
+;;AfterSale-SearchBox-Create;SearchBox;;SearchBoxSlot;true
+;;AfterSale-TopHeaderSlot-Create;TopHeaderSlot;;TopHeaderSlot;true
+;;AfterSale-BottomHeaderSlot-Create;BottomHeaderSlot;;BottomHeaderSlot;true
+;;AfterSale-PlaceholderContentSlot-Create;PlaceholderContentSlot;;PlaceholderContentSlot;true
+;;AfterSale-ContentTopSlot-Create;Section1;;Section1;true
+
+#shaun:DeskTop
+INSERT_UPDATE ContentSlotForTemplate;$contentCV[unique=true];uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='DeskTopFormTemplate'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+;;AfterSale-SiteLogo-DeskTop;SiteLogo;;SiteLogoSlot;true
+;;AfterSale-HomepageLink-DeskTop;HomepageNavLink;;HomepageNavLinkSlot;true
+;;AfterSale-NavigationBar-DeskTop;NavigationBar;;NavigationBarSlot;true
+;;AfterSale-Footer-DeskTop;Footer;;FooterSlot;true
+;;AfterSale-HeaderLinks-DeskTop;HeaderLinks;;HeaderLinksSlot;true
+;;AfterSale-SearchBox-DeskTop;SearchBox;;SearchBoxSlot;true
+;;AfterSale-TopHeaderSlot-DeskTop;TopHeaderSlot;;TopHeaderSlot;true
+;;AfterSale-BottomHeaderSlot-DeskTop;BottomHeaderSlot;;BottomHeaderSlot;true
+;;AfterSale-PlaceholderContentSlot-DeskTop;PlaceholderContentSlot;;PlaceholderContentSlot;true
+;;AfterSale-ContentTopSlot-DeskTop;Section1;;Section1;true
+
+#shaun:Show
+INSERT_UPDATE ContentSlotForTemplate;$contentCV[unique=true];uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='ShowFormTemplate'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+;;AfterSale-SiteLogo-Show;SiteLogo;;SiteLogoSlot;true
+;;AfterSale-HomepageLink-Show;HomepageNavLink;;HomepageNavLinkSlot;true
+;;AfterSale-NavigationBar-Show;NavigationBar;;NavigationBarSlot;true
+;;AfterSale-Footer-Show;Footer;;FooterSlot;true
+;;AfterSale-HeaderLinks-Show;HeaderLinks;;HeaderLinksSlot;true
+;;AfterSale-SearchBox-Show;SearchBox;;SearchBoxSlot;true
+;;AfterSale-TopHeaderSlot-Show;TopHeaderSlot;;TopHeaderSlot;true
+;;AfterSale-BottomHeaderSlot-Show;BottomHeaderSlot;;BottomHeaderSlot;true
+;;AfterSale-PlaceholderContentSlot-Show;PlaceholderContentSlot;;PlaceholderContentSlot;true
+;;AfterSale-ContentTopSlot-Show;Section1;;Section1;true
+
+#shaun:BookToday
+INSERT_UPDATE ContentSlotForTemplate;$contentCV[unique=true];uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='BookTodayFormTemplate'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+;;AfterSale-SiteLogo-BookToday;SiteLogo;;SiteLogoSlot;true
+;;AfterSale-HomepageLink-BookToday;HomepageNavLink;;HomepageNavLinkSlot;true
+;;AfterSale-NavigationBar-BookToday;NavigationBar;;NavigationBarSlot;true
+;;AfterSale-Footer-BookToday;Footer;;FooterSlot;true
+;;AfterSale-HeaderLinks-BookToday;HeaderLinks;;HeaderLinksSlot;true
+;;AfterSale-SearchBox-BookToday;SearchBox;;SearchBoxSlot;true
+;;AfterSale-TopHeaderSlot-BookToday;TopHeaderSlot;;TopHeaderSlot;true
+;;AfterSale-BottomHeaderSlot-BookToday;BottomHeaderSlot;;BottomHeaderSlot;true
+;;AfterSale-PlaceholderContentSlot-BookToday;PlaceholderContentSlot;;PlaceholderContentSlot;true
+;;AfterSale-ContentTopSlot-BookToday;Section1;;Section1;true
+
+
+
+
+# Create ContentSlotNames
+# Each PageTemplate has a number of ContentSlotNames, with a list of valid components for the slot.
+# There are a standard set of slots and a number of specific slots for each template.
+# Standard slots are SiteLogo, HeaderLinks, MiniCart and NavigationBar (that all appear in the Header), and the Footer.
+
+# Error Page Template
+INSERT_UPDATE ContentSlotName;name[unique=true];template(uid,$contentCV)[unique=true][default='AfterSaleErrorPageTemplate'];validComponentTypes(code);compTypeGroup(code)
+ ;SiteLogo;;;logo
+ ;HeaderLinks;;;headerlinks
+ ;SearchBox;;;searchbox
+ ;NavigationBar;;;navigation
+ ;MiddleContent;;CMSParagraphComponent,SimpleResponsiveBannerComponent
+ ;BottomContent;;;wide
+ ;SideContent;;;narrow
+ ;Footer;;;footer
+ ;TopHeaderSlot;;;wide
+ ;BottomHeaderSlot;;;wide
+ ;PlaceholderContentSlot;;;
+
+
+# Landing Page Templates
+INSERT_UPDATE ContentSlotName;name[unique=true];template(uid,$contentCV)[unique=true][default='AfterSaleLandingPage1Template'];validComponentTypes(code);compTypeGroup(code)
+ ;SiteLogo;;;logo
+ ;HeaderLinks;;;headerlinks
+ ;SearchBox;;;searchbox
+ ;NavigationBar;;;navigation
+ ;Section1;;;wide
+ ;Section2A;;;wide
+ ;Section2B;;;narrow
+ ;Section2C;;;narrow
+ ;Section3;;;wide
+ ;Section4;;;narrow
+ ;Section5;;;wide
+ ;Footer;;;footer
+ ;TopHeaderSlot;;;wide
+ ;BottomHeaderSlot;;;wide
+ ;PlaceholderContentSlot;;;
+
+
+INSERT_UPDATE ContentSlotName;name[unique=true];template(uid,$contentCV)[unique=true][default='AfterSaleLandingPage2Template'];validComponentTypes(code);compTypeGroup(code)
+ ;SiteLogo;;;logo
+ ;HeaderLinks;;;headerlinks
+ ;SearchBox;;;searchbox
+ ;NavigationBar;;;navigation
+ ;Section1;;;wide
+ ;Section2;;;narrow
+ ;Section2B;;;narrow
+ ;Section2C;;;wide
+ ;Section3;;;wide
+ ;Section4;;;narrow
+ ;Section5;;;wide
+ ;Footer;;;footer
+ ;TopHeaderSlot;;;wide
+ ;BottomHeaderSlot;;;wide
+ ;PlaceholderContentSlot;;;
+
+
+# Simple Content Page Templates
+INSERT_UPDATE ContentSlotName;name[unique=true];template(uid,$contentCV)[unique=true][default='AfterSaleContentPage1Template'];validComponentTypes(code);compTypeGroup(code)
+ ;SiteLogo;;;logo
+ ;HeaderLinks;;;headerlinks
+ ;SearchBox;;;searchbox
+ ;NavigationBar;;;navigation
+ ;Section1;;;wide
+ ;Section2A;;;narrow
+ ;Section2B;;;wide
+ ;Section3;;;wide
+ ;Footer;;;footer
+ ;TopHeaderSlot;;;wide
+ ;BottomHeaderSlot;;;wide
+ ;PlaceholderContentSlot;;;

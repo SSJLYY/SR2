@@ -1,0 +1,180 @@
+# -----------------------------------------------------------------------
+# [y] hybris Platform
+#
+# Copyright (c) 2017 SAP SE or an SAP affiliate company.  All rights reserved.
+#
+# This software is the confidential and proprietary information of SAP
+# ("Confidential Information"). You shall not disclose such Confidential
+# Information and shall use it only in accordance with the terms of the
+# license agreement you entered into with SAP.
+# -----------------------------------------------------------------------
+$contentCatalog=alpsAfterSaleContentCatalog
+$contentCatalogName=Alps Content Catalog
+$contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Staged])[default=$contentCatalog:Staged]
+$productCatalog=alpsProductCatalog
+$productCatalogName=Alps Product Catalog
+$productCV=catalogVersion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+$picture=media(code, $contentCV);
+$image=image(code, $contentCV);
+$media=media(code, $contentCV);
+$page=page(uid, $contentCV);
+$contentPage=contentPage(uid, $contentCV);
+$product=product(code, $productCV)
+$category=category(code, $productCV)
+$siteResource=jar:com.bp.alps.after.sale.initialdata.constants.AlpsaftersaleinitialdataConstants&/alpsaftersaleinitialdata/import/sampledata/contentCatalogs/alpsAfterSaleContentCatalog
+$productResource=jar:com.bp.alps.after.sale.initialdata.constants.AlpsaftersaleinitialdataConstants&/alpsaftersaleinitialdata/import/sampledata/productCatalogs
+$jarResourceCms=jar:com.bp.alps.after.sale.initialdata.constants.AlpsaftersaleinitialdataConstants&/alpsaftersaleinitialdata/import/sampledata/cockpits/cmscockpit
+$lang=zh
+
+INSERT_UPDATE Media;$contentCV[unique=true];code[unique=true];mime;realfilename;@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator][forceWrite=true];folder(qualifier)[default='images']
+;;logoImage;text/jpg;logo.jpg;$siteResource/images/logo.jpg
+;;login_banner;text/png;login_banner.png;$siteResource/images/login_banner.png
+;;daodianjieche;text/png;daodianjieche.png;$siteResource/images/daodianjieche.png
+;;fuwukaidan;text/png;fuwukaidan.png;$siteResource/images/fuwukaidan.png
+;;gongdanList;text/png;gongdanList.png;$siteResource/images/gongdanList.png
+;;jiecheList;text/png;jiecheList.png;$siteResource/images/jiecheList.png
+;;tuihuodan;text/png;tuihuodan.png;$siteResource/images/tuihuodan.png
+;;yaoyueList;text/png;yaoyueList.png;$siteResource/images/yaoyueList.png
+;;yuyueCre;text/png;yuyueCre.png;$siteResource/images/yuyueCre.png
+;;yuyueList;text/png;yuyueList.png;$siteResource/images/yuyueList.png
+;;zengzhiCre;text/png;zengzhiCre.png;$siteResource/images/zengzhiCre.png
+;;zengzhiList;text/png;zengzhiList.png;$siteResource/images/zengzhiList.png
+;;PrintContent;text/png;zengzhiList.png;$siteResource/images/zengzhiList.png
+
+INSERT_UPDATE JspIncludeComponent;$contentCV[unique=true];uid[unique=true];name;page;actions(uid,$contentCV);&componentRef
+;;ReturningCustomerLoginComponent;Returning Customer Login Component;accountReturningCustomerLogin.jsp;;ReturningCustomerLoginComponent
+;;NewCustomerLoginComponent;New Customer Login Component;accountNewCustomerLogin.jsp;;NewCustomerLoginComponent
+
+### Customer Login
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;LeftContentSlot-logintemplate;Left Content Slot for Customer Login;true;LoginBannerComponent;;;
+;;RightContentSlot-logintemplate;Right Content Slot for Customer Login;true;ReturningCustomerLoginComponent;;;
+;;LeftContentSlot-registertemplate;Left Content Slot for Customer Register;true;;;;
+;;RightContentSlot-registertemplate;Right Content Slot for Customer Register;true;NewCustomerLoginComponent;;;
+;;NavigationBarSlot;Navigation Bar Slot;true;NavBarComponent
+;;TopHeaderSlot;to header slot;true;;
+;;SiteLogoSlot;SiteLogoSlot;true;SiteLogoComponent
+;;Section1;top content solt;true;BreadcrumbComponent
+
+# Site Logo Component
+INSERT_UPDATE SimpleBannerComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef;urlLink;media(code,$contentCV)[lang=$lang];
+;;SiteLogoComponent;Site Logo Component;SiteLogoComponent;"/";logoImage;
+;;LoginBannerComponent;Login Banner Component;LoginBannerComponent;"/";login_banner;
+;;ReturnOrderPrintContentComponent;ReturnOrderPrintContentComponent;ReturnOrderPrintContentComponent;"/return-order/print";PrintContent
+
+INSERT_UPDATE BreadcrumbComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef
+;;BreadcrumbComponent;Breadcrumb CMS Component;BreadcrumbComponent
+
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='returnOrderPrint'];contentSlot(uid,$contentCV)[unique=true];;;
+;;Section2-returnOrderPrint;Section2;;Section2Slot-returnOrderPrint;;;
+
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;Section2Slot-returnOrderPrint;Section2Slot-returnOrderPrint;true;ReturnOrderPrintContentComponent;;;
+
+INSERT_UPDATE NavigationBarComponent;$contentCV[unique=true];uid[unique=true];name;wrapAfter;navigationNode(&nodeRef);link(uid, $contentCV);styleClass;dropDownLayout(code);&componentRef
+;;TaskNavComponent;Home Nav Component;10;TaskNavNode;TaskNavLink;;AUTO;TaskNavComponent
+;;ServiceNavComponent;Home Nav Component;10;ServiceNavNode;ServiceNavLink;;AUTO;ServiceNavComponent
+;;IncrementServiceNavComponent;Home Nav Component;10;IncrementServiceNavNode;IncrementServiceNavLink;;AUTO;IncrementServiceNavComponent
+;;CustomerNavComponent;Home Nav Component;10;CustomerNavNode;CustomerNavLink;;AUTO;CustomerNavComponent
+;;VehicleNavComponent;Home Nav Component;10;VehicleNavNode;VehicleNavLink;;AUTO;VehicleNavComponent
+;;AchievementNavComponent;Home Nav Component;10;AchievementNavNode;AchievementNavLink;;AUTO;AchievementNavComponent
+;;ConfigurationNavComponent;Home Nav Component;10;ConfigurationNavNode;ConfigurationNavLink;;AUTO;ConfigurationNavComponent
+;;AccountNavComponent;Home Nav Component;10;AccountNavNode;AccountNavLink;;AUTO;AccountNavComponent
+
+INSERT_UPDATE CMSLinkComponent;$contentCV[unique=true];uid[unique=true];linkName[lang=$lang];name;url;styleAttributes;&linkRef;&componentRef;target(code)[default='sameWindow'];$category;$product;
+
+;;CreatePickUpCarLink;到店接车;pick up car;/pickup/recordCreate;;CreatePickUpCarLink;CreatePickUpCarLink;;;;
+;;PickUpCarListLink;接车列表;pick up car list;/pickup/list;;PickUpCarListLink;PickUpCarListLink;;;;
+;;CreateServiceTicketLink;服务单开单;service ticket;/service-order/form;;CreateServiceTicketLink;CreateServiceTicketLink;;;;
+;;ServiceTicketListLink;服务单列表;service ticket list;/service-order/list;;ServiceTicketListLink;ServiceTicketListLink;;;;
+
+#shaun
+;;ComponentsListLink;零配件;components list;/configuration/components;;ComponentsListLink;ComponentsListLink;;;;
+;;MaintenanceProjectListLink;维修项目;maintenance project list;/configuration/maintenanceProject;;MaintenanceProjectListLink;MaintenanceProjectListLink;;;;
+;;ServicePackageListLink;服务包;service package list;/configuration/servicePackage;;ServicePackageListLink;ServicePackageListLink;;;;
+
+
+;;DigitalCamerasCategoryLink;Digital Cameras;Digital Cameras Category Link;/Open-Catalogue/Cameras/Digital-Cameras/c/575;;DigitalCamerasCategoryLink;DigitalCamerasCategoryLink;;;;
+
+;;TaskNavLink;任务;task;/;fa-home;TaskNavLink;TaskNavLink;;;;
+;;ServiceNavLink;服务;service;/;fa-heart-o;ServiceNavLink;ServiceNavLink;;;;
+;;IncrementServiceNavLink;增值业务;increment;/;fa-envelope;IncrementServiceNavLink;IncrementServiceNavLink;;;;
+;;CreateIncrementOrderNavLink;创建增值业务订单;incrementOrder;/increment-order/form;fa-envelope;CreateIncrementOrderNavLink;CreateIncrementOrderNavLink;;;;
+;;IncrementOrderListNavLink;增值业务订单列表;incrementOrderList;/increment-order/list;fa-envelope;IncrementOrderListNavLink;IncrementOrderListNavLink;;;;
+;;ReturnOrderListNavLink;退货单;returnOrderList;/return-order/list;fa-envelope;ReturnOrderListNavLink;ReturnOrderListNavLink;;;;
+;;CustomerNavLink;客户;customer;/;fa-user-md;CustomerNavLink;CustomerNavLink;;;;
+;;CustomerFormLink;客户创建;customer create;/customer/form;;CustomerFormLink;CustomerFormLink;;;;
+;;CustomerSearchListLink;客户列表;customer list;/customer;;CustomerSearchListLink;CustomerSearchListLink;;;;
+;;VehicleNavLink;车辆;vehicle;/vehicle;fa-car;VehicleNavLink;VehicleNavLink;;;;
+;;VehicleCreateNavLink;创建车辆;vehicle;/vehicle/form;;VehicleCreateNavLink;VehicleCreateNavLink;;;;
+;;VehicleListNavLink;车辆列表;vehicle;/vehicle;;VehicleListNavLink;VehicleListNavLink;;;;
+;;AchievementNavLink;业绩;achievement;/;fa-cutlery;AchievementNavLink;AchievementNavLink;;;;
+;;ConfigurationNavLink;配置;configuration;/;fa-cog;ConfigurationNavLink;ConfigurationNavLink;;;;
+;;AccountNavLink;账户;account;/my-account;fa-cutlery;AccountNavLink;AccountNavLink;;;;
+
+INSERT_UPDATE CMSNavigationNode;uid[unique=true];$contentCV[unique=true];name;parent(uid, $contentCV);links(&linkRef);&nodeRef
+;root;;root;;;root
+;SiteRootNode;;SiteRootNode;root;;SiteRootNode
+;TaskNavNode;;Task Links;SiteRootNode;TaskNavLink;TaskNavNode
+;CreatePickUpCarNavNode;;Task Links;TaskNavNode;CreatePickUpCarLink;CreatePickUpCarNavNode
+;PickUpCarListNavNode;;Task Links;TaskNavNode;PickUpCarListLink;PickUpCarListNavNode
+;ServiceNavNode;;Service Links;SiteRootNode;ServiceNavLink;ServiceNavNode
+;CreateServiceTicketNavNode;;Service Links;ServiceNavNode;CreateServiceTicketLink;CreateServiceTicketNavNode
+;ServiceTicketListNavNode;;Service ticket list Links;ServiceNavNode;ServiceTicketListLink;ServiceTicketListNavNode
+;IncrementServiceNavNode;;increment Links;SiteRootNode;IncrementServiceNavLink;IncrementServiceNavNode
+;CreateIncrementOrderNavNode;;increment Links;IncrementServiceNavNode;CreateIncrementOrderNavLink;CreateIncrementOrderNavNode
+;IncrementOrderListNavNode;;increment Links;IncrementServiceNavNode;IncrementOrderListNavLink;IncrementOrderListNavNode
+;ReturnOrderListNavNode;;return order Links;IncrementServiceNavNode;ReturnOrderListNavLink;ReturnOrderListNavNode
+;CustomerNavNode;;customer Links;SiteRootNode;CustomerNavLink;CustomerNavNode
+;CustomerSearchListNode;;customer list Links;CustomerNavNode;CustomerSearchListLink;CustomerSearchListNode
+;CustomerFormNode;;customer form Links;CustomerNavNode;CustomerFormLink;CustomerFormNode
+;VehicleNavNode;;vehicle Links;SiteRootNode;VehicleNavLink;VehicleNavNode
+;VehicleCreateNavNode;;vehicle Links;VehicleNavNode;VehicleCreateNavLink;VehicleCreateNavNode
+;VehicleListNavNode;;vehicle Links;VehicleNavNode;VehicleListNavLink;VehicleListNavNode
+;AchievementNavNode;;achievement Links;SiteRootNode;AchievementNavLink;AchievementNavNode
+;ConfigurationNavNode;;configuraction Links;SiteRootNode;ConfigurationNavLink;ConfigurationNavNode
+#shaun
+;ComponentsListNavNode;;configuraction Links;ConfigurationNavNode;ComponentsListLink;ComponentsListNavNode
+;MaintenanceProjectListNavNode;;configuraction Links;ConfigurationNavNode;MaintenanceProjectListLink;MaintenanceProjectListNavNode
+;ServicePackageListNavNode;;configuraction Links;ConfigurationNavNode;ServicePackageListLink;ServicePackageListNavNode
+
+;AccountNavNode;;account Links;SiteRootNode;AccountNavLink;AccountNavNode
+
+UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];navigationNodes(uid,$contentCV)
+;;serviceOrderForm;ServiceNavNode
+;;serviceOrderList;ServiceNavNode
+;;createForm;TaskNavNode
+;;detailForm;TaskNavNode
+;;deskTopForm;TaskNavNode
+;;showForm;TaskNavNode
+;;bookTodayForm;TaskNavNode,PickUpCarListNavNode
+;;vehicleList;VehicleNavNode
+;;vehicleDetail;VehicleNavNode
+;;vehicleForm;VehicleNavNode
+;;customerForm;CustomerNavNode
+;;customerList;CustomerNavNode
+#shaun
+;;componentsList;ConfigurationNavNode
+;;maintenanceProjectList;ConfigurationNavNode
+;;servicePackageList;ConfigurationNavNode
+
+# Navigation Bar Component
+INSERT_UPDATE NavigationBarCollectionComponent;$contentCV[unique=true];uid[unique=true];name;components(uid, $contentCV);&componentRef
+;;NavBarComponent;Navigation Bar Collection Componeent;TaskNavComponent,ServiceNavComponent,IncrementServiceNavComponent,CustomerNavComponent,VehicleNavComponent,AchievementNavComponent,ConfigurationNavComponent,AccountNavComponent;NavBarComponent
+
+INSERT_UPDATE CustomNav;code;link(uid,$contentCV)[unique=true];user(uid);display[default=false];image(code,$contentCV);order[unique=true];
+;daodianjieche;CreatePickUpCarLink;;true;daodianjieche;1;
+;jiecheList;PickUpCarListLink;;true;jiecheList;2;
+;fuwukaidan;CreateServiceTicketLink;;true;fuwukaidan;3;
+;gongdanList;ServiceTicketListLink;;true;gongdanList;4;
+;zengzhiCre;CreateIncrementOrderNavLink;;true;zengzhiCre;5;
+;zengzhiList;IncrementOrderListNavLink;;true;zengzhiList;6;
+;tuihuodan;ReturnOrderListNavLink;;true;tuihuodan;7;
+;chuangjiankehu;CustomerFormLink;;;daodianjieche;8;
+;kehuliebiao;CustomerSearchListLink;;;daodianjieche;9;
+;chuangjiancheliang;VehicleCreateNavLink;;;daodianjieche;10;
+;cheliangliebiao;VehicleListNavLink;;;daodianjieche;11;
+;lingpeijian;ComponentsListLink;;;zengzhiList;12;
+;weixiuxiangmu;MaintenanceProjectListLink;;;zengzhiList;13;
+;fuwubao;ServicePackageListLink;;;zengzhiList;14;
+;wodezhanghu;AccountNavLink;;;fuwukaidan;15;

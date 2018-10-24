@@ -1,0 +1,107 @@
+$productCatalog=alpsProductCatalog
+$productCatalogName=alps Product Catalog
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+$onlineCatalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Online'])[unique=true,default=$productCatalog:Online]
+$baseProduct=baseProduct(code, catalogVersion(catalog(id[default='$productCatalog']),version[default='Staged']))
+$supercategories=source(code, $catalogVersion)[unique=true]
+$categories=target(code, $catalogVersion)[unique=true]
+$approved=approvalstatus(code)[default='approved']
+$lang=zh
+$currency=CNY
+$storeUid=alpsstore1
+
+INSERT_UPDATE Product;code[unique=true];name[lang=$lang];summary[lang=$lang];$catalogVersion;unit(code);supercategories(code,$catalogVersion);varianttype(code);$approved;
+;LHJR500021PVA;座椅下饰板;;;pieces;components;
+;LLR034630;座椅腰部调节器;;;pieces;components;
+;JT2H15258;座椅座垫加热垫;;;pieces;components;
+;LHHK500060;座椅调节马达;;;pieces;components;
+;LHJN500012NUG;座椅调节旋钮;;;pieces;components;
+;LLR002125;座椅头枕;;;pieces;components;
+;LLR007912;座椅腰部支撑调节旋钮;;;pieces;components;
+;JC2D18642RHV;座椅座垫套;;;pieces;components;
+;FW0001;维修保养服务包;;;pieces;servicepackage;
+;FW0002;春季促销服务包;;;pieces;servicepackage;
+;FW0003;首保促销服务包;;;pieces;servicepackage;
+;WX0001;机油消耗测量;;;pieces;maintenanceproject;
+;WX0002;检查外部启动接线柱;;;pieces;maintenanceproject;
+;WX0003;左前叶子板喷漆面;;;pieces;maintenanceproject;
+;WX0004;其他喷漆面;;;pieces;maintenanceproject;
+
+INSERT_UPDATE Product;code[unique=true];manualDirectoryIdentifier;maintenanceItemCode;pricingReferenceMaterial;artificialMainType;$catalogVersion
+;WX0001;LVC-0313;WLQW11314;500000;1A11;
+;WX0002;LVC-0313;WLQW11315;500000;1A12;
+;WX0003;LVC-0313;WLQW11316;500000;1A13;
+;WX0004;LVC-0313;WLQW11317;500000;1A14;
+
+INSERT_UPDATE Product;code[unique=true];materialGroup;materialType;specificationModel;$catalogVersion
+;LHJR500021PVA;零部件;维修类;Abl2;
+;LLR034630;零部件;维修类;Abl2;
+;JT2H15258;零部件;维修类;Abl2;
+;LHHK500060;零部件;维修类;Abl2;
+;LHJN500012NUG;零部件;维修类;Abl2;
+;LLR002125;零部件;维修类;Abl2;
+;LLR007912;零部件;维修类;Abl2;
+;JC2D18642RHV;零部件;维修类;Abl2;
+
+INSERT_UPDATE WorkHoursConfiguration;product(code,$onlineCatalogVersion)[unique=true];typesOfWork(code)[unique=true];hours;
+;WX0001;FOURG;15
+;WX0001;R56;15
+;WX0001;QTCXWN;15
+;WX0002;FOURG;16
+;WX0002;R56;15
+;WX0002;QTCXWN;15
+;WX0003;FOURG;16
+;WX0003;R56;15
+;WX0003;QTCXWN;15
+;WX0004;FOURG;18
+;WX0004;R56;15
+;WX0004;QTCXWN;15
+;LHJN500012NUG;FOURG;19
+;LHJN500012NUG;R56;15
+;LHJN500012NUG;QTCXWN;15
+;LLR002125;FOURG;20
+;LLR002125;R56;15
+;LLR002125;QTCXWN;15
+;LLR007912;FOURG;21
+;LLR007912;R56;15
+;LLR007912;QTCXWN;15
+;JC2D18642RHV;R56;22
+
+INSERT_UPDATE Product;code[unique=true];artificialMainType;servicePackStatus;materialType;$catalogVersion
+;FW0001;1A11;已发布服务包;服务包
+;FW0002;1A11;已发布服务包;服务包
+;FW0003;1A11;已发布服务包;服务包
+
+INSERT_UPDATE PriceRow;product(code,$catalogVersion)[unique=true];unit(code[unique=true,default=pieces]);$catalogVersion;currency(isocode[default=$currency])[unique=true];price;minqtd;unitFactor;net
+;LHJR500021PVA;pieces;;;590;1;1;FALSE;
+;LLR034630;pieces;;;591;1;1;FALSE;
+;JT2H15258;pieces;;;237;1;1;FALSE;
+;LHHK500060;pieces;;;456;1;1;FALSE;
+;LHJN500012NUG;pieces;;;599;1;1;FALSE;
+;LLR002125;pieces;;;893;1;1;FALSE;
+;LLR007912;pieces;;;592;1;1;FALSE;
+;JC2D18642RHV;pieces;;;597;1;1;FALSE;
+;FW0001;pieces;;;590;1;1;FALSE;
+;FW0002;pieces;;;591;1;1;FALSE;
+;FW0003;pieces;;;592;1;1;FALSE;
+;WX0003;pieces;;;593;1;1;FALSE;
+;WX0001;pieces;;;595;1;1;FALSE;
+;WX0004;pieces;;;595;1;1;FALSE;
+;WX0002;pieces;;;596;1;1;FALSE;
+
+INSERT_UPDATE StockLevel;available;warehouse(code)[default='default',unique=true];inStockStatus(code)[default='notSpecified'];overSelling;preOrder;productCode[unique=true];reserved
+;1000;;forceInStock;0;0;LHJR500021PVA;0;
+;1000;;forceInStock;0;0;LLR034630;0;
+;1000;;forceInStock;0;0;JT2H15258;0;
+;1000;;forceInStock;0;0;LHHK500060;0;
+;1000;;forceInStock;0;0;LHJN500012NUG;0;
+;1000;;forceInStock;0;0;LLR002125;0;
+;1000;;forceInStock;0;0;LLR007912;0;
+;1000;;forceInStock;0;0;JC2D18642RHV;0;
+;1000;;forceInStock;0;0;FW0001;0;
+;1000;;forceInStock;0;0;FW0002;0;
+;1000;;forceInStock;0;0;FW0003;0;
+;1000;;forceInStock;0;0;WX0003;0;
+;1000;;forceInStock;0;0;WX0001;0;
+;1000;;forceInStock;0;0;WX0004;0;
+;1000;;forceInStock;0;0;WX0002;0;

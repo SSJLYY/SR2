@@ -1,0 +1,51 @@
+# -----------------------------------------------------------------------
+# [y] hybris Platform
+#
+# Copyright (c) 2017 SAP SE or an SAP affiliate company.  All rights reserved.
+#
+# This software is the confidential and proprietary information of SAP
+# ("Confidential Information"). You shall not disclose such Confidential
+# Information and shall use it only in accordance with the terms of the
+# license agreement you entered into with SAP.
+# -----------------------------------------------------------------------
+# ImpEx for Importing Categories into Electronics Store
+
+# Macros / Replacement Parameter definitions
+$productCatalog=alpsProductCatalog
+$productCatalogName=alps Product Catalog
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+$onlineCatalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Online'])[unique=true,default=$productCatalog:Online]
+$supercategories=source(code, $catalogVersion)[unique=true]
+$categories=target(code, $catalogVersion)[unique=true]
+$superCategories=superCategories(code, $catalogVersion)
+$lang=zh
+
+INSERT_UPDATE Category;code[unique=true];name[lang=$lang];$catalogVersion;supercategories(code,$catalogVersion);allowedPrincipals(uid)[default='customergroup']
+;root;;;;
+;aftersale;售后;;root;
+;components;配件;;aftersale;
+;servicepackage;服务包;;aftersale;
+;maintenanceproject;维修项目;;aftersale;
+;brands;品牌;;
+;audi;Audi;;brands
+;a6;A6;;audi
+;a7;A7;;audi
+;a8;A8;;audi
+;s3;S3;;audi
+;s5;S5;;audi
+;q3;Q3;;audi
+;bmw;BMW;;brands
+;f20;F20;;bmw
+;f22;F22;;bmw
+;G30;G30;;bmw
+
+INSERT_UPDATE TypesOfWorksConfiguraion;vehicleCategory(code,$onlineCatalogVersion)[unique=true];typesOfWork(code);
+;a6;FOURG
+;a7;R56
+;a8;QTCXWN
+;s3;FOURG
+;s5;R56
+;q3;QTCXWN
+;f20;FOURG
+;f22;R56
+;G30;QTCXWN
